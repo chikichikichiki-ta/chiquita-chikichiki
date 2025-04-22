@@ -2,70 +2,143 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>フォーム整形ツール</title>
+  <title>みんなで主軸を考えよう</title>
   <style>
-    body {
-      font-family: sans-serif;
-      padding: 2rem;
-      max-width: 600px;
-      margin: auto;
-    }
-    textarea {
-      width: 100%;
-      height: 80px;
-    }
-    #output {
-      background: #f4f4f4;
-      padding: 1rem;
-      margin-top: 1rem;
-      border-radius: 5px;
-    }
-    button {
-      margin-top: 1rem;
-      padding: 0.5rem 1rem;
-    }
+    body { font-family: sans-serif; margin: 20px; }
+    h1 { font-size: 24px; }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    .form-section { margin-bottom: 20px; }
+    button, input[type="radio"], select, textarea { font-size: 18px; }
+    .radio-group { margin: 5px 0; }
+    .output { white-space: pre-line; background: #f4f4f4; padding: 10px; margin-top: 20px; }
   </style>
 </head>
 <body>
-  <h2>フォームから文章を作る</h2>
+  <h1>みんなで主軸を考えよう</h1>
 
-  <label>プルダウン選択:</label><br>
-  <select id="dropdown">
-    <option value="選択肢A">選択肢A</option>
-    <option value="選択肢B">選択肢B</option>
-    <option value="選択肢C">選択肢C</option>
-  </select><br><br>
+  <div class="form-section">
+    <label>自信度</label>
+    <select id="confidence">
+      <option value="">選んでください</option>
+      <option value="120％（馬券外なら丸刈りの所存）">120％（馬券外なら丸刈りの所存）</option>
+      <option value="100％（馬券外はまずない）">100％（馬券外はまずない）</option>
+      <option value="50％（正直あんまり自信ない）">50％（正直あんまり自信ない）</option>
+    </select>
+  </div>
 
-  <label>ラジオボタン選択:</label><br>
-  <label><input type="radio" name="radio" value="はい" checked> はい</label>
-  <label><input type="radio" name="radio" value="いいえ"> いいえ</label><br><br>
+  <div class="form-section">
+    <label>会場</label>
+    <select id="venue">
+      <option value="">選んでください</option>
+      <option>帯広</option>
+      <option>門別</option>
+      <option>盛岡</option>
+      <option>水沢</option>
+      <option>浦和</option>
+      <option>船橋</option>
+      <option>大井</option>
+      <option>川崎</option>
+      <option>金沢</option>
+      <option>笠松</option>
+      <option>名古屋</option>
+      <option>園田</option>
+      <option>姫路</option>
+      <option>高知</option>
+      <option>佐賀</option>
+    </select>
+  </div>
 
-  <label>フリーテキスト:</label><br>
-  <textarea id="freeText"></textarea><br>
+  <div class="form-section">
+    <label>レース番号</label>
+    <select id="raceNumber">
+      <option value="">選んでください</option>
+      <script>
+        for (let i = 1; i <= 12; i++) {
+          const num = String(i).padStart(2, '0');
+          document.write(`<option value="${num}">${num}R</option>`);
+        }
+      </script>
+    </select>
+  </div>
 
-  <button onclick="generateText()">文章を作成</button>
-  <button onclick="copyText()">コピー</button>
+  <div class="form-section">
+    <label>軸</label>
+    <select id="jiku">
+      <option value="">選んでください</option>
+      <script>
+        const jikus = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯".split("");
+        jikus.forEach(j => document.write(`<option value="${j}">${j}</option>`));
+      </script>
+    </select>
+  </div>
 
-  <div id="output"></div>
+  <div class="form-section">
+    <label>どんな軸？</label>
+    <select id="jikuType">
+      <option value="">選んでください</option>
+      <option>3連単の頭固定で買えるレベル</option>
+      <option>頭固定は厳しいが複勝圏内でなら軸にできる</option>
+    </select>
+  </div>
+
+  <div class="form-section">
+    <label>選んだ理由（ファクター）</label>
+    <script>
+      const factors = ["パドック","持ち時計","調教","過去戦績","血統","脚質","今日の馬場傾向（前残り）","今日の馬場傾向（差し届く）","Xで誰かが推してた","Youtuberが推してた","パドック解説者が推してた"];
+      factors.forEach(f => {
+        document.write(`<label><input type="checkbox" name="factor" value="${f}">${f}</label>`);
+      });
+    </script>
+  </div>
+
+  <div class="form-section">
+    <label>馬単・馬連の紐（5頭まで）</label>
+    <script>
+      const jikuset = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯".split("");
+      jikuset.forEach(j => {
+        document.write(`<label><input type="checkbox" name="himo" value="${j}" onclick="validateHimo()">${j}</label>`);
+      });
+    </script>
+    <div id="himo-warning" style="color:red; display:none">馬単・馬連の紐は5頭までだよ</div>
+  </div>
+
+  <div class="form-section">
+    <label>フリーテキスト（買い目とか）</label>
+    <textarea id="freeText" rows="4" cols="50"></textarea>
+  </div>
+
+  <button onclick="generateMessage()">文章を生成</button>
+  <button onclick="copyMessage()">コピー</button>
+
+  <div class="output" id="output"></div>
 
   <script>
-    function generateText() {
-      const dropdown = document.getElementById('dropdown').value;
-      const radios = document.getElementsByName('radio');
-      let radioValue = '';
-      for (let r of radios) {
-        if (r.checked) radioValue = r.value;
-      }
-      const freeText = document.getElementById('freeText').value;
-      const output = `あなたは「${dropdown}」を選び、「${radioValue}」と回答し、「${freeText}」と入力しました。`;
-      document.getElementById('output').innerText = output;
+    function getSelectValue(id) {
+      const el = document.getElementById(id);
+      return el ? el.value : '';
     }
-
-    function copyText() {
-      const text = document.getElementById('output').innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        alert('コピーしました！');
-      });
+    function getValues(name) {
+      return Array.from(document.querySelectorAll(`input[name='${name}']:checked`)).map(e => e.value);
+    }
+    function generateMessage() {
+      const venue = getSelectValue('venue');
+      const raceNumber = getSelectValue('raceNumber');
+      const jiku = getSelectValue('jiku');
+      const jikuType = getSelectValue('jikuType');
+      const factors = getValues('factor').join('・');
+      const confidence = getSelectValue('confidence');
+      const himo = getValues('himo').join('');
+      const free = document.getElementById('freeText').value;
+      const msg = `【${venue}${raceNumber}R】\n軸：${jiku}\nどんな軸？：${jikuType}\n選んだ理由（ファクター）：${factors}\n自信度：${confidence}\n馬単・馬連の紐（5頭まで）：${himo}\n\n${free}`;
+      document.getElementById('output').textContent = msg;
+    }
+    function copyMessage() {
+      const text = document.getElementById('output').textContent;
+      navigator.clipboard.writeText(text).then(() => alert('コピーしました！'));
+    }
+    function validateHimo() {
+      const selected = getValues('himo');
+      document.getElementById('himo-warning').style.display = selected.length > 5 ? 'block' : 'none';
     }
   </script>
 </body>

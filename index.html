@@ -27,9 +27,10 @@
     <label>【自信度】</label>
     <select id="confidence">
       <option value="">選んでください</option>
-      <option value="120％（馬券外なら丸刈りの所存）">120％（馬券外なら丸刈りの所存）</option>
-      <option value="100％（馬券外はまずない）">100％（馬券外はまずない）</option>
-      <option value="50％（正直あんまり自信ない）">50％（正直あんまり自信ない）</option>
+      <option value="120％（SSS）">120％（SSS）</option>
+      <option value="100％（自信はある）">85％（自信はある）</option>
+      <option value="50％（正直自信ない）">50％（正直自信ない）</option>
+      <option value="25％（穴狙い）">25％（穴狙い）</option>
     </select>
   </div>
 
@@ -41,18 +42,6 @@
       <option>名古屋</option>
       <option>浦和</option>
       <option>門別</option>
-      <option>------</option>
-      <option>盛岡</option>
-      <option>水沢</option>
-      <option>船橋</option>
-      <option>大井</option>
-      <option>川崎</option>
-      <option>金沢</option>
-      <option>笠松</option>
-      <option>姫路</option>
-      <option>高知</option>
-      <option>佐賀</option>
-      <option>帯広</option>
     </select>
   </div>
 
@@ -101,14 +90,14 @@
   <br>
   <br>
   <div class="form-section">
-    <label>【馬単・馬連の紐】※複数選択可能（ただし4頭まで）</label>
+    <label>【馬単・馬連の紐】※複数選択可能（ただし5頭まで）</label>
     <script>
       const jikuset = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯".split("");
       jikuset.forEach(j => {
         document.write(`<label><input type="checkbox" name="himo" value="${j}" onclick="validateHimo()">${j}</label>`);
       });
     </script>
-    <div id="himo-warning" style="color:red; display:none">馬単・馬連の紐は4頭までだよ</div>
+    <div id="himo-warning" style="color:red; display:none">馬単・馬連の紐は5頭までだよ</div>
   </div>
 
   <div class="form-section">
@@ -147,7 +136,7 @@
     }
     function validateHimo() {
       const selected = getValues('himo');
-      document.getElementById('himo-warning').style.display = selected.length > 4 ? 'block' : 'none';
+      document.getElementById('himo-warning').style.display = selected.length > 5 ? 'block' : 'none';
     }
   </script>
 </body>

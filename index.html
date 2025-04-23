@@ -105,15 +105,15 @@
     <label>【レース番号】</label>
     <select id="raceNumber">
       <option value="">選んでください</option>
-      <option>01R</option>
-      <option>02R</option>
-      <option>03R</option>
-      <option>04R</option>
-      <option>05R</option>
-      <option>06R</option>
-      <option>07R</option>
-      <option>08R</option>
-      <option>09R</option>
+      <option>1R</option>
+      <option>2R</option>
+      <option>3R</option>
+      <option>4R</option>
+      <option>5R</option>
+      <option>6R</option>
+      <option>7R</option>
+      <option>8R</option>
+      <option>9R</option>
       <option>10R</option>
       <option>11R</option>
       <option>12R</option>
@@ -143,23 +143,21 @@
   <div class="form-section">
     <label>【馬単・馬連の紐】※5頭まで選択可</label>
     <div id="himo-container"></div>
-    <div id="himo-warning" style="color:red; display:none">馬単・馬連の紐は5頭までだよ</div>
+    <div id="himo-warning" style="color:red; display:none">馬単・馬連の紐は5頭までにとどめてね</div>
   </div>
   <br>
   <div class="form-section">
-    <label>【フリーテキスト】</label>
+    <label>【コメント入力欄】</label>
     <textarea id="freeText" rows="4"></textarea>
   </div>
   <br>
   <button class="generate-button" onclick="generateMessage()">文章を生成</button>
-  <br>
   <div class="output" id="output"></div>
-  
   <button class="copy-button" onclick="copyMessage()">コピー</button>
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      const jikus = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯".split("");
+      const jikus = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫".split("");
       const jikuSelect = document.getElementById("jiku");
 
       const defaultOption = document.createElement("option");

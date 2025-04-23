@@ -4,13 +4,44 @@
   <meta charset="UTF-8">
   <title>主軸を制する者はゲームを制す～勝利の方程式(地方版)～</title>
   <style>
-    body { font-family: sans-serif; margin: 20px; }
-    h1 { font-size: 24px; }
-    label { display: block; margin-top: 10px; font-weight: bold; }
-    .form-section { margin-bottom: 20px; }
-    button, input[type="radio"], select, textarea { font-size: 18px; }
-    .radio-group { margin: 5px 0; }
-    .output { white-space: pre-line; background: #f4f4f4; padding: 10px; margin-top: 20px; }
+    body {
+      font-family: sans-serif;
+      margin: 10px;
+      max-width: 95vw;
+      font-size: 16px;
+    }
+    h1 {
+      font-size: 24px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .form-section {
+      margin-bottom: 20px;
+    }
+    button, input[type="radio"], select, textarea {
+      font-size: 18px;
+      width: 100%;
+      max-width: 100%;
+    }
+    .radio-group {
+      margin: 5px 0;
+    }
+    .output {
+      white-space: pre-line;
+      background: #f4f4f4;
+      padding: 10px;
+      margin-top: 20px;
+      word-break: break-word;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    textarea {
+      width: 100%;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
@@ -102,7 +133,7 @@
 
   <div class="form-section">
     <label>【フリーテキスト】（自由に書いてください）</label>
-    <textarea id="freeText" rows="4" cols="50"></textarea>
+    <textarea id="freeText" rows="4"></textarea>
   </div>
 
   <button onclick="generateMessage()">文章を生成</button>

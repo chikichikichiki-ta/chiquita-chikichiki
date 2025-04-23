@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>主軸を制する者はゲームを制す</title>
+  <title>軸を制する者はゲームを制す</title>
   <style>
     body {
       font-family: sans-serif;
@@ -78,27 +78,18 @@
   </style>
 </head>
 <body>
-  <h1>軸選びを皆で協力しよう！</h1>
-  <br>
-  <p><strong>▼当ツールの使い方</strong><br>
-　1：下記入力フォームを埋める（未入力可）<br>
-　2：文章を生成ボタンを押す<br>
-　3：コピーボタンを押す<br>
-　4：オープンチャットに戻って貼り付ける<br>
-　5：投稿する</p>
-
   <div class="form-section">
     <label>【自信度】</label>
     <select id="confidence">
       <option value="">選んでください</option>
-      <option value="120％（SSS）">120％（SSS）</option>
-      <option value="100％（自信はある）">100％（自信はある）</option>
+      <option value="120％">120％</option>
+      <option value="100％">100％</option>
       <option value="75％">75％</option>
-      <option value="50％（正直自信ない）">50％（正直自信ない）</option>
-      <option value="25％（穴狙い）">25％（穴狙い）</option>
+      <option value="50％">50％</option>
+      <option value="25％">25％</option>
     </select>
   </div>
-
+  <br>
   <div class="form-section">
     <label>【会場】</label>
     <select id="venue">
@@ -109,7 +100,7 @@
       <option>門別</option>
     </select>
   </div>
-
+  <br>
   <div class="form-section">
     <label>【レース番号】</label>
     <select id="raceNumber">
@@ -128,12 +119,12 @@
       <option>12R</option>
     </select>
   </div>
-
+  <br>
   <div class="form-section">
     <label>【軸】</label>
     <select id="jiku"></select>
   </div>
-
+  <br>
   <div class="form-section">
     <label>【軸の確度】</label>
     <select id="jikuType">
@@ -144,7 +135,6 @@
     </select>
   </div>
   <br>
-
   <div class="form-section">
     <label>【選んだ理由】※複数選択可能</label>
     <div id="factor-container"></div>
@@ -155,14 +145,16 @@
     <div id="himo-container"></div>
     <div id="himo-warning" style="color:red; display:none">馬単・馬連の紐は5頭までだよ</div>
   </div>
-
+  <br>
   <div class="form-section">
     <label>【フリーテキスト】</label>
     <textarea id="freeText" rows="4"></textarea>
   </div>
-
+  <br>
   <button class="generate-button" onclick="generateMessage()">文章を生成</button>
+  <br>
   <div class="output" id="output"></div>
+  
   <button class="copy-button" onclick="copyMessage()">コピー</button>
 
   <script>

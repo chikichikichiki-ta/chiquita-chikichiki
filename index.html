@@ -23,8 +23,6 @@
     }
     button, input[type="radio"], select, textarea {
       font-size: 18px;
-      width: 100%;
-      max-width: 100%;
     }
     .radio-group {
       margin: 5px 0;
@@ -41,6 +39,26 @@
     textarea {
       width: 100%;
       font-size: 16px;
+    }
+    .generate-button {
+      background-color: lightgreen;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+    .copy-button {
+      background-color: pink;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: inline-block;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -80,12 +98,18 @@
     <label>【レース番号】</label>
     <select id="raceNumber">
       <option value="">選んでください</option>
-      <script>
-        for (let i = 1; i <= 12; i++) {
-          const num = String(i).padStart(2, '0');
-          document.write(`<option value="${num}">${num}R</option>`);
-        }
-      </script>
+      <option>01R</option>
+      <option>02R</option>
+      <option>03R</option>
+      <option>04R</option>
+      <option>05R</option>
+      <option>06R</option>
+      <option>07R</option>
+      <option>08R</option>
+      <option>09R</option>
+      <option>10R</option>
+      <option>11R</option>
+      <option>12R</option>
     </select>
   </div>
 
@@ -118,8 +142,7 @@
       });
     </script>
   </div>
-  <br>
-  <br>
+  <br><br>
   <div class="form-section">
     <label>【馬単・馬連の紐】※複数選択可能（ただし5頭まで）</label>
     <script>
@@ -136,10 +159,9 @@
     <textarea id="freeText" rows="4"></textarea>
   </div>
 
-  <button onclick="generateMessage()">文章を生成</button>
-  <button onclick="copyMessage()">コピー</button>
-
+  <button class="generate-button" onclick="generateMessage()">文章を生成</button>
   <div class="output" id="output"></div>
+  <button class="copy-button" onclick="copyMessage()">コピー</button>
 
   <script>
     function getSelectValue(id) {

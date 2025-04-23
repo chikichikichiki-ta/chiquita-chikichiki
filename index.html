@@ -2,14 +2,14 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>主軸を制する者はゲームを制す～勝利の方程式(地方版)～</title>
+  <title>主軸を制する者はゲームを制す</title>
   <style>
     body {
       font-family: sans-serif;
       margin: 10px;
       max-width: 95vw;
-      font-size: 16px;
-      line-height: 1.5;
+      font-size: 18px;
+      line-height: 1.6;
     }
     h1 {
       font-size: 24px;
@@ -18,6 +18,7 @@
       display: block;
       margin-top: 10px;
       font-weight: bold;
+      font-size: 20px;
     }
     .form-section {
       margin-bottom: 20px;
@@ -35,12 +36,12 @@
       padding: 10px;
       margin-top: 20px;
       word-break: break-word;
-      font-size: 16px;
+      font-size: 18px;
       max-width: 21em;
     }
     textarea {
       width: 100%;
-      font-size: 16px;
+      font-size: 18px;
     }
     .generate-button {
       background-color: lightgreen;
@@ -63,6 +64,16 @@
       display: inline-block;
       margin-top: 10px;
       max-width: 100%;
+    }
+    #himo-container label, #factor-container label {
+      font-size: 20px;
+      display: inline-block;
+      margin-right: 10px;
+      margin-bottom: 5px;
+    }
+    #himo-container input[type="checkbox"], #factor-container input[type="checkbox"] {
+      transform: scale(1.5);
+      margin-right: 5px;
     }
   </style>
 </head>
@@ -120,13 +131,7 @@
 
   <div class="form-section">
     <label>【軸】</label>
-    <select id="jiku">
-      <option value="">選んでください</option>
-      <script>
-        const jikus = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯".split("");
-        jikus.forEach(j => document.write(`<option value="${j}">${j}</option>`));
-      </script>
-    </select>
+    <select id="jiku"></select>
   </div>
 
   <div class="form-section">
@@ -138,30 +143,22 @@
       <option>穴狙いなので軸とはいい難し</option>
     </select>
   </div>
+  <br>
 
   <div class="form-section">
     <label>【選んだ理由】※複数選択可能</label>
-    <script>
-      const factors = ["パドック","持ち時計","調教","過去戦績","血統","脚質","今日の馬場傾向（前残り）","今日の馬場傾向（差し届く）","Xで誰かが推してた","Youtuberが推してた","パドック解説者が推してた","他のサイトを参考にした","オリジナル指数"];
-      factors.forEach(f => {
-        document.write(`<label><input type="checkbox" name="factor" value="${f}">${f}</label>`);
-      });
-    </script>
+    <div id="factor-container"></div>
   </div>
-  <br><br>
+  <br>
   <div class="form-section">
-    <label>【馬単・馬連の紐】※複数選択可能（ただし5頭まで）</label>
-    <script>
-      const jikuset = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯".split("");
-      jikuset.forEach(j => {
-        document.write(`<label><input type="checkbox" name="himo" value="${j}" onclick="validateHimo()">${j}</label>`);
-      });
-    </script>
+    <label>【馬単・馬連の紐】※5頭まで選択可</label>
+    <div id="himo-container"></div>
     <div id="himo-warning" style="color:red; display:none">馬単・馬連の紐は5頭までだよ</div>
+    <div style="color:gray; font-size: 0.9em; margin-top: 5px;">※選びすぎ注意！紐は最大5頭までにしてね。</div>
   </div>
 
   <div class="form-section">
-    <label>【フリーテキスト】（自由に書いてください）</label>
+    <label>【フリーテキスト】（自由に書いてOK！）</label>
     <textarea id="freeText" rows="4"></textarea>
   </div>
 
@@ -170,6 +167,49 @@
   <button class="copy-button" onclick="copyMessage()">コピー</button>
 
   <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const jikus = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯".split("");
+      const jikuSelect = document.getElementById("jiku");
+
+      const defaultOption = document.createElement("option");
+      defaultOption.value = "";
+      defaultOption.textContent = "選んでください";
+      jikuSelect.appendChild(defaultOption);
+
+      jikus.forEach(j => {
+        const option = document.createElement("option");
+        option.value = j;
+        option.textContent = j;
+        jikuSelect.appendChild(option);
+      });
+
+      const factorList = ["パドック","持ち時計","調教","過去戦績","血統","脚質","今日の馬場傾向（前残り）","今日の馬場傾向（差し届く）","他のサイトを参考にした","オリジナル指数"];
+      const factorContainer = document.getElementById("factor-container");
+      factorList.forEach(f => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.name = "factor";
+        input.value = f;
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(f));
+        factorContainer.appendChild(label);
+      });
+
+      const himoContainer = document.getElementById("himo-container");
+      jikus.forEach(j => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.name = "himo";
+        input.value = j;
+        input.onclick = validateHimo;
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(j));
+        himoContainer.appendChild(label);
+      });
+    });
+
     function getSelectValue(id) {
       const el = document.getElementById(id);
       return el ? el.value : '';

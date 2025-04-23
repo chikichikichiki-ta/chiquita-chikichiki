@@ -4,12 +4,21 @@
   <meta charset="UTF-8">
   <title>軸を制する者はゲームを制す</title>
   <style>
-    body {
+    html, body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       font-family: sans-serif;
-      margin: 10px;
-      max-width: 95vw;
       font-size: 18px;
       line-height: 1.6;
+    }
+    body {
+      padding: 10px;
+    }
+    .form-section {
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 100%;
     }
     h1 {
       font-size: 24px;
@@ -19,10 +28,6 @@
       margin-top: 10px;
       font-weight: bold;
       font-size: 20px;
-    }
-    .form-section {
-      margin-bottom: 20px;
-      max-width: 21em;
     }
     button, input[type="radio"], select, textarea {
       font-size: 18px;
@@ -37,11 +42,13 @@
       margin-top: 20px;
       word-break: break-word;
       font-size: 18px;
-      max-width: 21em;
+      width: 100%;
+      box-sizing: border-box;
     }
     textarea {
       width: 100%;
       font-size: 18px;
+      box-sizing: border-box;
     }
     .generate-button {
       background-color: lightgreen;
@@ -52,7 +59,7 @@
       cursor: pointer;
       margin-bottom: 10px;
       display: inline-block;
-      max-width: 100%;
+      width: 100%;
     }
     .copy-button {
       background-color: pink;
@@ -63,7 +70,7 @@
       cursor: pointer;
       display: inline-block;
       margin-top: 10px;
-      max-width: 100%;
+      width: 100%;
     }
     #himo-container label, #factor-container label {
       font-size: 20px;

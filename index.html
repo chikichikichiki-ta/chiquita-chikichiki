@@ -129,14 +129,14 @@
     <label>【軸の確度】</label>
     <select id="jikuType">
       <option value="">選んでください</option>
-      <option>3連単の頭固定で買えるレベル</option>
-      <option>頭固定は厳しいが複勝圏内でなら軸にできる</option>
-      <option>穴狙いなので軸とはいい難し</option>
+      <option>【SSS】頭固定で買えるレベル</option>
+      <option>【S】複勝圏内には入る</option>
+      <option>【A】穴狙いなので軸とは言い難い</option>
     </select>
   </div>
   <br>
   <div class="form-section">
-    <label>【選んだ理由】※複数選択可能</label>
+    <label>【選んだ理由】※複数選択可</label>
     <div id="factor-container"></div>
   </div>
   <br>
@@ -172,7 +172,7 @@
         jikuSelect.appendChild(option);
       });
 
-      const factorList = ["パドック","持ち時計","調教","過去戦績","血統","脚質","今日の馬場傾向（前残り）","今日の馬場傾向（差し届く）","他のサイトを参考にした","オリジナル指数"];
+      const factorList = ["パドック","騎手買い","持ち時計","調教","過去戦績","血統","展開有利（逃げる）","展開有利（追い込む）","ジンクスを信じた","他サイト参考","オリジナル指数"];
       const factorContainer = document.getElementById("factor-container");
       factorList.forEach(f => {
         const label = document.createElement("label");

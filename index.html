@@ -184,7 +184,7 @@
       const confidence = getSelectValue('confidence');
       const himo = getValues('himo').join('');
       const free = document.getElementById('freeText').value;
-      const msg = `【${venue}${raceNumber}R】\n自信度：${confidence}\n軸：${jiku}\n軸の確度：${jikuType}\n選んだ理由：${factors}\n馬単・馬連の紐：${himo}\n\n${free}`;
+      const msg = `【${venue}${raceNumber}】\n自信度：${confidence}\n軸：${jiku}\n軸の確度：${jikuType}\n選んだ理由：${factors}\n馬単・馬連の紐：${himo}\n\n${free}`;
       document.getElementById('output').textContent = msg;
     }
     function copyMessage() {

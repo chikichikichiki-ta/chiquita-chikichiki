@@ -107,8 +107,12 @@
     <label>【会場】</label>
     <select id="venue">
       <option value="">選んでください</option>
-      <option>浦和</option>
-      <option>名古屋</option>
+      <option>福島</option>
+      <option>京都</option>
+      <option>東京</option>
+      <option>-----------</option>
+      <option>水沢</option>
+      <option>高知</option>
       <option>佐賀</option>
     </select>
   </div>
@@ -169,7 +173,7 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      const jikus = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫".split("");
+      const jikus = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱".split("");
       const jikuSelect = document.getElementById("jiku");
 
       const defaultOption = document.createElement("option");

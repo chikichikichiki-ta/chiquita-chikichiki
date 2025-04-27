@@ -152,6 +152,47 @@
   </div>
   <br>
   <div class="form-section">
+    <label>【危険な人気馬(自信の消し)】</label>
+    <select id="kesiuma">
+      <option value="">無し</option>
+      <option>①</option>
+      <option>②</option>
+      <option>③</option>
+      <option>④</option>
+      <option>⑤</option>
+      <option>⑥</option>
+      <option>⑦</option>
+      <option>⑧</option>
+      <option>⑨</option>
+      <option>⑩</option>
+      <option>⑪</option>
+      <option>⑫</option>
+      <option>⑬</option>
+      <option>⑭</option>
+      <option>⑮</option>
+      <option>⑯</option>
+      <option>⑰</option>
+      <option>⑱</option>
+    </select>
+  </div>
+  <br>
+  <div class="form-section">
+    <label>【消しの理由】</label>
+    <select id="kesiumaType">
+      <option value="">無し</option>
+      <option>騎手の過剰人気</option>
+      <option>馬場コンディションに合わない</option>
+      <option>展開不利</option>
+      <option>戦績が悪い</option>
+      <option>イレ込み激しい</option>
+      <option>パドック悪し</option>
+      <option>鉄砲駆けしない</option>
+      <option>人気の意味が不明</option>
+      <option>ジンクス</option>
+    </select>
+  </div>
+  <br>
+  <div class="form-section">
     <label>【馬単・馬連の紐】※5頭まで選択可</label>
     <div id="himo-container"></div>
     <div id="himo-warning" style="color:red; display:none">馬単・馬連の紐は5頭までにとどめてね</div>
@@ -183,7 +224,7 @@
         jikuSelect.appendChild(option);
       });
 
-      const factorList = ["パドック","騎手買い","持ち時計","調教","過去戦績","血統","展開有利（逃げる）","展開有利（追い込む）","ジンクスを信じた","他サイト参考","オリジナル指数"];
+      const factorList = ["パドック","騎手買い","持ち時計","調教","過去戦績","血統","展開有利（逃げる）","展開有利（追い込む）","ジンクス","他サイト参考","オリジナル指数"];
       const factorContainer = document.getElementById("factor-container");
       factorList.forEach(f => {
         const label = document.createElement("label");
@@ -225,8 +266,10 @@
       const factors = getValues('factor').join('・');
       const confidence = getSelectValue('confidence');
       const himo = getValues('himo').join('');
+      const kesiuma = getSelectValue('kesiuma');
+      const kesiumaType = getSelectValue('kesiumaType');
       const free = document.getElementById('freeText').value;
-      const msg = `【${venue}${raceNumber}】\n皆へのお勧め度：${confidence}\n軸：${jiku}\n軸の確度：${jikuType}\n選んだ理由：${factors}\n馬単・馬連の紐：${himo}\n\n${free}`;
+      const msg = `【${venue}${raceNumber}】\n皆へのお勧め度：${confidence}\n軸：${jiku}\n軸の確度：${jikuType}\n選んだ理由：${factors}\n馬単・馬連の紐：${himo}\n\n危険な人気馬(自信の消し)：${kesiuma}\n消しの理由：${kesiumaType}\n\n${free}`;
       document.getElementById('output').textContent = msg;
     }
     function copyMessage() {

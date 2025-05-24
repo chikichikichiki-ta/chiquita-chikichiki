@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>軸を制する者はゲームを制す</title>
+  <title>予想投稿テキスト作成フォーム</title>
   <style>
     html, body {
       margin: 0;
@@ -27,10 +27,10 @@
       display: block;
       margin-top: 10px;
       font-weight: bold;
-      font-size: 40px; /* 約20px × 2 */
+      font-size: 40px;
     }
     button, input[type="radio"], select, textarea {
-      font-size: 36px; /* 約18px × 2 */
+      font-size: 40px;
     }
     .radio-group {
       margin: 5px 0;
@@ -41,7 +41,7 @@
       padding: 10px;
       margin-top: 20px;
       word-break: break-word;
-      font-size: 36px; /* 出力のフォントも2倍に */
+      font-size: 36px;
       width: 100%;
       box-sizing: border-box;
     }
@@ -74,35 +74,37 @@
       width: 100%;
       font-size: 36px;
     }
-    #himo-container label, #factor-container label {
+    .red-label {
+      color: red;
+    }
+    .gray-label {
+      color: rgba(0, 0, 0, 0.3);
+    }
+    #ichiretu-container label,#niretu-container label,#sanretu-container label, #factor-container label {
+      color: blue; /* ラベルのテキスト色を青に */
+    }
+    #ichiretu-container label,#niretu-container label,#sanretu-container label {
+      font-size: 50px;
+      display: inline-block;
+      margin-right: 10px;
+      margin-bottom: 5px;
+    }
+    #factor-container label {
       font-size: 40px;
       display: inline-block;
       margin-right: 10px;
       margin-bottom: 5px;
     }
-    #himo-container input[type="checkbox"], #factor-container input[type="checkbox"] {
+    #ichiretu-container input[type="checkbox"], #niretu-container input[type="checkbox"], #sanretu-container input[type="checkbox"], #factor-container input[type="checkbox"] {
       transform: scale(1.5);
-      margin-right: 5px;
+      margin-right: 10px;
+      margin-left: 15px;
       accent-color: red; /* チェック時の色を赤に */
     }
-    #himo-container label, #factor-container label {
-      color: blue; /* ラベルのテキスト色を青に */
-    }
+
   </style>
 </head>
 <body>
-  <div class="form-section">
-    <label>【皆へのお勧め度】</label>
-    <select id="confidence">
-      <option value="">選んでください</option>
-      <option value="120％">120％</option>
-      <option value="100％">100％</option>
-      <option value="75％">75％</option>
-      <option value="50％">50％</option>
-      <option value="25％">25％</option>
-    </select>
-  </div>
-  <br>
   <div class="form-section">
     <label>【会場】</label>
     <select id="venue">
@@ -157,8 +159,10 @@
     <div id="factor-container"></div>
   </div>
   <br>
+  <br>
+  <br>
   <div class="form-section">
-    <label>【危険な人気馬(自信の消し)】</label>
+    <label class="gray-label">【危険な人気馬(自信の消し)】</label>
     <select id="kesiuma">
       <option value="">選んでください</option>
       <option>消せる馬がいない</option>
@@ -184,7 +188,7 @@
   </div>
   <br>
   <div class="form-section">
-    <label>【消しの理由】</label>
+    <label class="gray-label">【消しの理由】</label>
     <select id="kesiumaType">
       <option value="">選んでください</option>
       <option>消せる馬がいない</option>
@@ -200,16 +204,61 @@
     </select>
   </div>
   <br>
+  <br>
+  <br>
   <div class="form-section">
-    <label>【馬単・馬連の紐】※5頭まで選択可</label>
-    <div id="himo-container"></div>
-    <div id="himo-warning" style="color:red; display:none">馬単・馬連の紐は5頭までにとどめてね</div>
+    <label class="red-label">【お勧めの買い方】</label>
+    <select id="kaikata">
+      <option value="">選んでください</option>
+      <option>単勝</option>
+      <option>複勝</option>
+      <option>単勝／複勝</option>
+      <option>ワイド</option>
+      <option>馬連</option>
+      <option>馬単</option>
+      <option>馬単(裏表)</option>
+      <option>馬連／ワイド</option>
+      <option>３連単</option>
+      <option>３連単(１列目⇔２列目→３列目)</option>
+      <option>３連単(１列目→２列目⇔３列目)</option>
+      <option>３連単／３連複</option>
+      <option>３連複</option>
+    </select>
+  </div>
+  <br>
+  <div class="form-section">
+    <label class="red-label">【皆へのお勧め度】</label>
+    <select id="confidence">
+      <option value="">選んでください</option>
+      <option value="120％">120％</option>
+      <option value="100％">100％</option>
+      <option value="75％">75％</option>
+      <option value="50％">50％</option>
+      <option value="25％">25％</option>
+    </select>
+  </div>
+  <br>
+  <div class="form-section">
+    <label>【買い目：１列目】</label>
+    <div id="ichiretu-container"></div>
+  </div>
+  <br>
+  <div class="form-section">
+    <label>【買い目：２列目】</label>
+    <div id="niretu-container"></div>
+  </div>
+  <br>
+  <div class="form-section">
+    <label>【買い目：３列目】</label>
+    <div id="sanretu-container"></div>
   </div>
   <br>
   <div class="form-section">
     <label>【コメント入力欄】</label>
     <textarea id="freeText" rows="4"></textarea>
   </div>
+  <br>
+  <br>
   <br>
   <button class="generate-button" onclick="generateMessage()">文章を生成</button>
   <div class="output" id="output"></div>
@@ -245,17 +294,40 @@
         factorContainer.appendChild(label);
       });
 
-      const himoContainer = document.getElementById("himo-container");
+      const ichiretuContainer = document.getElementById("ichiretu-container");
       jikus.forEach(j => {
         const label = document.createElement("label");
         const input = document.createElement("input");
         input.type = "checkbox";
-        input.name = "himo";
+        input.name = "ichiretu";
         input.value = j;
-        input.onclick = validateHimo;
         label.appendChild(input);
         label.appendChild(document.createTextNode(j));
-        himoContainer.appendChild(label);
+        ichiretuContainer.appendChild(label);
+      });
+
+      const niretuContainer = document.getElementById("niretu-container");
+      jikus.forEach(j => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.name = "niretu";
+        input.value = j;
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(j));
+        niretuContainer.appendChild(label);
+      });
+
+      const sanretuContainer = document.getElementById("sanretu-container");
+      jikus.forEach(j => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.name = "sanretu";
+        input.value = j;
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(j));
+        sanretuContainer.appendChild(label);
       });
     });
 
@@ -271,22 +343,66 @@
       const raceNumber = getSelectValue('raceNumber');
       const jiku = getSelectValue('jiku');
       const jikuType = getSelectValue('jikuType');
-      const factors = getValues('factor').join('・');
-      const confidence = getSelectValue('confidence');
-      const himo = getValues('himo').join('');
+      const factorsArray = getValues('factor');
+      const factors = factorsArray.join('・');
       const kesiuma = getSelectValue('kesiuma');
       const kesiumaType = getSelectValue('kesiumaType');
+      const confidence = getSelectValue('confidence');
+      const kaikata = getSelectValue('kaikata');
+      const ichiretuArray = getValues('ichiretu');
+      const ichiretu = ichiretuArray.join('');
+      const niretu = getValues('niretu').join('');
+      const sanretu = getValues('sanretu').join('');
       const free = document.getElementById('freeText').value;
-      const msg = `【${venue}${raceNumber}】\n皆へのお勧め度：${confidence}\n軸：${jiku}\n軸の確度：${jikuType}\n選んだ理由：${factors}\n馬単・馬連の紐：${himo}\n\n危険な人気馬(自信の消し)：${kesiuma}\n消しの理由：${kesiumaType}\n\n${free}`;
+
+      let msg = `【${venue}${raceNumber}】\n`;
+
+      // 条件①：軸セクション
+      if (jiku && jiku.trim() !== '') {
+        msg += `軸：${jiku}\n`;
+        if (jikuType && jikuType.trim() !== '') {
+          msg += `軸の確度：${jikuType}\n`;
+        }
+        if (factorsArray.length > 0) {
+          msg += `選んだ理由：${factors}\n`;
+        }
+        msg += `\n`;
+      }
+
+      // 条件②：消し馬セクション
+      if (kesiuma && kesiuma.trim() !== '') {
+        msg += `危険な人気馬(自信の消し)：${kesiuma}\n`;
+        if (kesiumaType && kesiumaType.trim() !== '') {
+          msg += `消しの理由：${kesiumaType}\n`;
+        }
+        msg += `\n`;
+      }
+
+      // 条件③：お勧め度
+      if (confidence && confidence.trim() !== '') {
+        msg += `皆へのお勧め度：${confidence}\n`;
+      }
+
+      // 条件④：買い方
+      if (kaikata && kaikata.trim() !== '') {
+        msg += `お勧めの買い方：${kaikata}\n`;
+      }
+
+      // 条件⑤：三連系の列
+      if (ichiretuArray.length > 0) {
+        msg += `１列目：${ichiretu}\n２列目：${niretu}\n３列目：${sanretu}\n`;
+      }
+
+      // フリーテキスト
+      if (free && free.trim() !== '') {
+        msg += `\n${free}`;
+      }
+
       document.getElementById('output').textContent = msg;
     }
     function copyMessage() {
       const text = document.getElementById('output').textContent;
       navigator.clipboard.writeText(text).then(() => alert('コピーしました！'));
-    }
-    function validateHimo() {
-      const selected = getValues('himo');
-      document.getElementById('himo-warning').style.display = selected.length > 5 ? 'block' : 'none';
     }
   </script>
 </body>

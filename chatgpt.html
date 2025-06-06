@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>chatgpt質問作成フォーム</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    body {
+      padding: 10px;
+    }
+    .form-section {
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 100%;
+    }
+    h1 {
+      font-size: 18px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    textarea {
+      width: 100%;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    select {
+      font-size: 14px;
+      padding: 4px;
+      width: 100%;
+    }
+    .generate-button {
+      background-color: lightgreen;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 10px;
+      display: inline-block;
+      width: 100%;
+      font-size: 14px;
+    }
+    .char-count {
+      color: red;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .copy-button {
+      background-color: pink;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: inline-block;
+      margin-top: 0;
+      width: 100%;
+      font-size: 14px;
+    }
+    .output {
+      white-space: pre-line;
+      background: #f4f4f4;
+      padding: 10px;
+      margin-top: 20px;
+      word-break: break-word;
+      font-size: 14px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-section">
+    <label>【会場】</label>
+    <select id="venue">
+      <option value="">選んでください</option>
+      <option>東京</option>
+      <option>阪神</option>
+    </select>
+  </div>
+
+  <div class="form-section">
+    <label>【レース番号】</label>
+    <select id="raceNumber">
+      <option value="">選んでください</option>
+      <option>1R</option>
+      <option>2R</option>
+      <option>3R</option>
+      <option>4R</option>
+      <option>5R</option>
+      <option>6R</option>
+      <option>7R</option>
+      <option>8R</option>
+      <option>9R</option>
+      <option>10R</option>
+      <option>11R</option>
+      <option>12R</option>
+    </select>
+  </div>
+
+  <div class="form-section">
+    <label>【コメント入力欄】</label>
+    <textarea id="freeText" rows="30"></textarea>
+  </div>
+
+  <button class="generate-button" onclick="generateMessage()">文章を生成</button>
+  <div id="charCount" class="char-count"></div>
+  <button class="copy-button" onclick="copyMessage()">コピー</button>
+  <div class="output" id="output"></div>
+
+  <script>
+    function getSelectValue(id) {
+      const el = document.getElementById(id);
+      return el ? el.value : '';
+    }
+
+    function sanitizeInput(text) {
+      return text
+        .split('\n')                             // 行ごとに分割
+        .filter(line => !line.includes('メニューを開く'))  // 「メニューを開く」を含む行削除
+//        .filter(line => !/^@\S+.*$/.test(line))             // @で始まるユーザー名行を削除
+        .join('\n')                             // 行を結合
+        .replace(/\n{3,}/g, '\n\n')            // 3行以上の改行を2行にまとめる
+        .trim();
+    }
+
+    function generateMessage() {
+      const venue = getSelectValue('venue');
+      const raceNumber = getSelectValue('raceNumber');
+      const free = document.getElementById('freeText').value;
+      const cleanedFree = sanitizeInput(free);
+
+      let msg = `## ChatGPTにお願いしたい事\n` +
+        `1. ${venue}${raceNumber}に関するX（旧Twitter）の投稿をあなたなりに整理する。\n` +
+        `2. 期待値が高い順に以下の記号で7頭を評価して記載してください：\n   ◎(本命)、〇(対抗)、▲(単穴)、△(連下)、★(注目)、☆(中穴)、Θ（大穴）\n` +
+        `3. 投稿内に何らかの言及がある他の馬も「無印」として記載してください。\n` +
+        `4. 最後にまとめとして、あなたがどのように判断して各評価を付けたか簡潔に記述してください。\n\n` +
+        `## 記載時のルール\n` +
+        `1. 各馬には「馬番＋馬名」を明記してください。\n` +
+        `2. 以下の順番で、投稿内で言及されたファクターだけを箇条書きで記載してください：\n` +
+        `   【調教】→【脚質】→【血統】→【騎手】→【パドック】→【X投稿率】→【特記事項】\n` +
+        `3. 言及がないファクターは絶対に記載しないでください。憶測や創作も禁止です。\n` +
+        `4. 「X投稿率」は、その馬についての言及数を全体投稿数に対する割合（％）で算出してください。\n` +
+        `5. 投稿者名・アカウント・個人に関する情報は一切記載しないでください。\n` +
+        `6. 出力は平文のテキスト形式で、変な改行やタグを含まないシンプルな構成にしてください。\n` +
+        `7. ファクターはなるべく表記を統一してください（例：先行、差し、好時計、など）。\n\n` +
+        `## 記載サンプル\n` +
+        `【${venue}${raceNumber}】\n\n` +
+        `◎：①ホースネームイチ  \n調教：好時計を連発  \n脚質：逃げ  \n血統：該当コースに適正有  \n騎手：該当コースに実績有  \nパドック：気配良し  \nX投稿率：5％  \n特記事項：返し馬が優秀。近走は逃げてよく粘りを見せており展開有利。休み明けだが鉄砲駆けする。\n\n` +
+        `Θ：③ホースネームサン  \nパドック：気配良し  \nX投稿率：2％  \n特記事項：パドックが優秀で一発ありそう。穴で一考。\n\n` +
+        `無印：⑥ホースネームロク  \nX投稿率：1％  \n特記事項：期待してる人が一定数いる。\n\n` +
+        `▼まとめ  \nパドック評価が高く、前目に行ける脚質の馬を重視。X投稿率も加味し、展開に乗れそうな馬を上位に選出。\n\n` +
+        `## ここからXの投稿となります。まとめをお願いします。\n\n`;
+
+      if (cleanedFree && cleanedFree.trim() !== '') {
+        msg += `${cleanedFree}\n`;
+      }
+      
+      // 35000文字を超えたら切り捨てる
+      if (msg.length > 35000) {
+        msg = msg.slice(0, 35000);
+      }
+
+      document.getElementById('output').textContent = msg;
+      document.getElementById('charCount').textContent = `文字数：${msg.length}文字`;
+    }
+
+    function copyMessage() {
+      const text = document.getElementById('output').textContent;
+      navigator.clipboard.writeText(text).then(() => alert('コピーしました！'));
+    }
+  </script>
+</body>
+</html>

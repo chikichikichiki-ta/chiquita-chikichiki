@@ -131,7 +131,7 @@
       return text
         .split('\n')                             // 行ごとに分割
         .filter(line => !line.includes('メニューを開く'))  // 「メニューを開く」を含む行削除
-//        .filter(line => !/^@\S+.*$/.test(line))             // @で始まるユーザー名行を削除
+        .filter(line => !/^@\S+.*$/.test(line))             // @で始まるユーザー名行を削除
         .join('\n')                             // 行を結合
         .replace(/\n{3,}/g, '\n\n')            // 3行以上の改行を2行にまとめる
         .trim();
@@ -170,8 +170,8 @@
       }
       
       // 35000文字を超えたら切り捨てる
-      if (msg.length > 35000) {
-        msg = msg.slice(0, 35000);
+      if (msg.length > 30000) {
+        msg = msg.slice(0, 30000);
       }
 
       document.getElementById('output').textContent = msg;

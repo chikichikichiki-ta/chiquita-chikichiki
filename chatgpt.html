@@ -139,10 +139,13 @@ function sanitizeInput(text) {
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 
-  // ステップ2: 「人名 + 空行 + 投稿日時」の3行を1行に変換
-  cleaned = cleaned.replace(/([^\n]+)\n\n(\d{1,2}月\d{1,2}日\(.\) \d{1,2}:\d{2})/g, (_, name, date) => {
-    return `◆匿名X投稿者　${date}◆`;
-  });
+  // ステップ2: 「人名 + 空行 + 投稿日時」の3行を1行に変換（複数パターン対応）
+  cleaned = cleaned.replace(
+    /([^\n]+)\n\n((?:\d+分前)|(?:昨日 \d{1,2}:\d{2})|(?:\d{1,2}:\d{2})|(?:\d{1,2}月\d{1,2}日\(.\) \d{1,2}:\d{2}))/g,
+    (_, name, date) => {
+      return `◆匿名X投稿者　${date}◆`;
+    }
+  );
 
   return cleaned;
 }
@@ -154,7 +157,7 @@ function sanitizeInput(text) {
       const cleanedFree = sanitizeInput(free);
 
       let msg = `## ChatGPTにお願いしたい事\n` +
-        `1. ${venue}${raceNumber}に関するX（旧Twitter）の投稿（ポスト）をまとめて下さい。\n` +
+        `1. 下記本文中に記載した、${venue}${raceNumber}に関するX（旧Twitter）の投稿（ポスト）をまとめて下さい。\n` +
         `2. 期待値が高い順に7頭まで評価して記載してください：\n　◎(本命)、〇(対抗)、▲(単穴)、△(連下)、★(注目)、☆(中穴)、Θ（大穴）\n\n` +
         `## 評価基準の優先度\n` +
         `　調教状態の発言内容＞パドック状態の発言内容＞その他Xの発言内容＞X投稿率\n\n` +

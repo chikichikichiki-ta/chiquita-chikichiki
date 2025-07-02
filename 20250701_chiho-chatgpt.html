@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>チキータ専用chatgpt質問作成フォーム</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    body {
+      padding: 10px;
+    }
+    .form-section {
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 100%;
+    }
+    h1 {
+      font-size: 18px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    textarea {
+      width: 100%;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    select {
+      font-size: 14px;
+      padding: 4px;
+      width: 100%;
+    }
+    .generate-button {
+      background-color: lightgreen;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 10px;
+      display: inline-block;
+      width: 100%;
+      font-size: 14px;
+    }
+    .char-count {
+      color: red;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .copy-button {
+      background-color: pink;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: inline-block;
+      margin-top: 0;
+      width: 100%;
+      font-size: 14px;
+    }
+    .output {
+      white-space: pre-line;
+      background: #f4f4f4;
+      padding: 10px;
+      margin-top: 20px;
+      word-break: break-word;
+      font-size: 14px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-section">
+    <label>【会場】</label>
+    <select id="venue">
+      <option value="">選んでください</option>
+      <option>札幌</option>
+      <option>函館</option>
+      <option>福島</option>
+      <option>新潟</option>
+      <option>中山</option>
+      <option>東京</option>
+      <option>中京</option>
+      <option>京都</option>
+      <option>阪神</option>
+      <option>小倉</option>
+      <option>-------------</option>
+      <option>帯広</option>
+      <option>門別</option>
+      <option>盛岡</option>
+      <option>水沢</option>
+      <option>浦和</option>
+      <option>船橋</option>
+      <option>大井</option>
+      <option>川崎</option>
+      <option>金沢</option>
+      <option>笠松</option>
+      <option>名古屋</option>
+      <option>姫路</option>
+      <option>園田</option>
+      <option>高知</option>
+      <option>佐賀</option>
+    </select>
+  </div>
+
+  <div class="form-section">
+    <label>【レース番号】</label>
+    <select id="raceNumber">
+      <option value="">選んでください</option>
+      <option>1R</option>
+      <option>2R</option>
+      <option>3R</option>
+      <option>4R</option>
+      <option>5R</option>
+      <option>6R</option>
+      <option>7R</option>
+      <option>8R</option>
+      <option>9R</option>
+      <option>10R</option>
+      <option>11R</option>
+      <option>12R</option>
+    </select>
+  </div>
+
+  <div class="form-section">
+    <label>【人気】</label>
+    <textarea id="ninkiText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【オリジナル指数】</label>
+    <textarea id="bomText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【出馬表】</label>
+    <textarea id="shutubaText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【能力表】</label>
+    <textarea id="nouryokuText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【対戦成績】</label>
+    <textarea id="taisenText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【調教】</label>
+    <textarea id="chokyoText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【厩舎の話】</label>
+    <textarea id="kyushaText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【ポイント】</label>
+    <textarea id="pointText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【当該成績】</label>
+    <textarea id="tougaiText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【パドックで良く見えた馬】</label>
+    <textarea id="goodPadockText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【予想する上での特記事項】</label>
+    <textarea id="tokkiText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【他人の意見】</label>
+    <textarea id="freeText" rows="5"></textarea>
+  </div>
+
+  <button class="generate-button" onclick="generateMessage()">文章を生成</button>
+  <div id="charCount" class="char-count"></div>
+  <button class="copy-button" onclick="copyMessage()">コピー</button>
+  <div class="output" id="output"></div>
+
+  <script>
+    function getSelectValue(id) {
+      const el = document.getElementById(id);
+      return el ? el.value : '';
+    }
+
+function sanitizeInput(text) {
+  // ステップ1: 不要な行の削除など前処理
+  let cleaned = text
+    .split('\n')
+    .filter(line => !line.includes('メニューを開く'))
+    .filter(line => !/^@\S+.*$/.test(line))
+    .map(line => line.replace(/pic\.x\.com\/\w+$/g, ''))
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+
+  // ステップ2: 「人名 + 空行 + 投稿日時」の3行を1行に変換
+  cleaned = cleaned.replace(
+    /([^\n]+)\n\n((?:\d+分前)|(?:昨日 \d{1,2}:\d{2})|(?:\d{1,2}:\d{2})|(?:\d{1,2}月\d{1,2}日\(.\) \d{1,2}:\d{2}))/g,
+    (_, name, date) => {
+      return `◆Xの投稿抜粋◆`; // 必要に応じてカスタマイズ
+    }
+  );
+
+  // ステップ3: 柔軟なパターン削除 (1〜3行の数字 + 日付)
+  let lines = cleaned.split('\n');
+  let resultLines = [];
+  let i = 0;
+  while (i < lines.length) {
+    let start = i;
+    let countDigits = 0;
+
+    // 最大3行まで数字行を数える
+    while (start < lines.length && countDigits < 3 && /^\d+$/.test(lines[start])) {
+      countDigits++;
+      start++;
+    }
+
+    // その次の行が日付パターン？
+    if (
+      start < lines.length &&
+      (/^\d+分前$/.test(lines[start]) ||
+       /^昨日 \d{1,2}:\d{2}$/.test(lines[start]) ||
+       /^\d{1,2}:\d{2}$/.test(lines[start]))
+    ) {
+      // このブロックをスキップ
+      i = start + 1;
+      continue;
+    }
+
+    // 該当しなければ普通に追加
+    resultLines.push(lines[i]);
+    i++;
+  }
+
+  cleaned = resultLines.join('\n');
+
+  return cleaned;
+}
+
+    function generateMessage() {
+      const venue = getSelectValue('venue');
+      const raceNumber = getSelectValue('raceNumber');
+      const goodPadock = document.getElementById('goodPadockText').value;
+      const point = document.getElementById('pointText').value;
+      const kyusha = document.getElementById('kyushaText').value;
+      const chokyo = document.getElementById('chokyoText').value;
+      const ninki = document.getElementById('ninkiText').value;
+      const nouryoku = document.getElementById('nouryokuText').value;
+      const shutuba = document.getElementById('shutubaText').value;
+      const taisen = document.getElementById('taisenText').value;
+      const tougai = document.getElementById('tougaiText').value;
+      const bom = document.getElementById('bomText').value;
+      const tokki = document.getElementById('tokkiText').value;
+      const free = document.getElementById('freeText').value;
+      const cleanedFree = sanitizeInput(free);
+
+      let msg = `君の名前はアントキノ・チキータ。かの有名なアントニオ・猪木の魂が乗り移った競馬予想家である。\n` +
+        `調教時計とパドック診断の2つをベースにした予想が武器であり、君が信じる信念そのものだ。\n\n` +
+        `#### アントキノ・チキータにお願いしたい事\n` +
+        `${venue}${raceNumber}に関する情報を色々提供するので、競馬の予想をお願いしたい。\n` +
+        `まず、シンプルに印、馬番号、馬名、自信度を自信度順に下記を記載してください：\n　◎(本命)、〇(対抗)、▲(単穴)、△(連下)、★(注目)\n` +
+        `さらに穴を開ける確率が高そうな馬を2頭ピックアップして同じように印、馬番号、馬名、自信度を下記分記載してください：\n　Φ(穴)、Θ（大穴）\n\n` +
+        `そして別セクションで各馬の評価理由を書いてください。\n\n` +
+        `#### 評価基準の優先度\n` +
+        `　調教＞パドック＞ポイント＞厩舎の話＞オリジナル指数＞人気＞他人の意見＞その他 etc...\n\n` +
+        `#### 記載時のルール\n` +
+        `1. 記載サンプルを参考にして記載する事。\n` +
+        `2. 「馬番＋馬名(不明な場合は不明と記載)」を明記してください。\n` +
+        `3. 「自信度」は貴方の評価基準で考えて下さい。全頭の自信度を足すと、100％になるように割合を考えて。\n` +
+        `4. 「評価理由」は細かく明記してください。最低でも5行くらい書いてほしい。\n` +
+        `5. あくまでアントキノ・チキータの予想として振る舞う事。\n` +
+        `　　情報元に関する内容は伏せて下さい。特に個人に関する情報や、〇〇AIとかそういうのも全部伏せて下さい。\n` +
+        `　　オリジナル指数が〇〇だから～というのは理由に書かないで下さい。\n` +
+        `6. 最後の出力は平文のテキスト形式で、変な改行やタグを含まないシンプルな構成にしてください。\n\n` +
+
+        `#### 記載サンプル\n` +
+//        `ふははは。みんな元気ですかー！俺はアントキノ・チキータ。競馬予想家だ。今日は暑いな！そんな皆に暑い予想をお届けするぜ！いくぞー！１・２・３・ダー！\n\n` +
+        `【${venue}${raceNumber}】\n\n` +
+        `～～自信度順～～\n\n` +
+        `◎：①ホースネームイチ\n自信度：35％\n\n` +
+        `〇：⑦ホースネームナナ\n自信度：20％\n\n` +
+        `▲：④ホースネームヨン\n自信度：10％\n\n` +
+        `△：⑥ホースネームロク\n自信度：8％\n\n` +
+        `★：③ホースネームサン\n自信度：7％\n\n` +
+        `～～ピックアップ特選穴馬2頭～～\n` +
+        `Φ：⑧ホースネームハチ\n自信度：2％\n\n` +
+        `Θ：②ホースネームニイ\n自信度：1％\n\n\n` +
+
+        `▼▼評価理由\n\n` +
+        `◎：①ホースネームイチ\n評価理由：～～(5行～10行)～～\n\n` +
+        `〇：⑦ホースネームナナ\n評価理由：～～(5行～10行)～～\n\n` +
+        `▲：④ホースネームヨン\n評価理由：～～(5行～10行)～～\n\n` +
+        `△：⑥ホースネームロク\n評価理由：～～(5行～10行)～～\n\n` +
+        `★：③ホースネームサン\n評価理由：～～(5行～10行)～～\n\n` +
+        `Φ：⑧ホースネームハチ\n評価理由：～～(5行～10行)～～\n\n` +
+        `Θ：②ホースネームニイ\n評価理由：～～(5行～10行)～～\n\n\n` +
+
+        `▼▼まとめ\n調教/パドック/騎手/展開/脚質/馬場コンディション／血統などのファクターに関する情報を纏めると軸には①ホースネームイチが最適です。～～～\n\n` +
+
+        `#### ここから各種情報を貼り付けますので、予想をお願いします。\n\n\n`;
+
+      // ①調教
+      if (chokyo && chokyo.trim() !== '') {
+        msg += `#### ①調教情報です。下の方ほど直近の追い切りとなります。\n${chokyo}\n\n`;
+      }
+      
+      // ②ポイントの話
+      if (point && point.trim() !== '') {
+        msg += `#### ②トラックマンによるポイントです。\n${point}\n\n`;
+      }
+      // ③パドックで良く見えた馬
+      if (goodPadock && goodPadock.trim() !== '') {
+        msg += `#### ③アントキノ・チキータ視点でパドックが良く見えた馬です。\n${goodPadock}\n\n`;
+      }
+      
+      // ④厩舎の話
+      if (kyusha && kyusha.trim() !== '') {
+        msg += `#### ④厩舎の話です。参考程度にして下さい。\n${kyusha}\n\n`;
+      }
+      
+      // ⑤オリジナル指数
+      if (bom && bom.trim() !== '') {
+        msg += `#### ⑤オリジナル指数です。参考程度にして下さい。\n${bom}\n\n`;
+      }
+      
+      // ⑥人気馬まとめ
+      if (ninki && ninki.trim() !== '') {
+        msg += `#### ⑥人気投票の結果まとめです。\n①～⑱は馬番号を示しています。数字は人気の割合です。（全部足すと100になります）\n${ninki}\n\n`;
+      }
+      
+      // ⑦能力表
+      if (nouryoku && nouryoku.trim() !== '') {
+        msg += `#### ⑦能力表です。右端が前走となります。しっかり読み込んで理解してください。\n${nouryoku}\n\n`;
+      }
+      
+      // ⑧出馬表
+      if (shutuba && shutuba.trim() !== '') {
+        msg += `#### ⑧出馬表です。各種トラックマンの予想印がありますが、参考程度にして下さい。\n${shutuba}\n\n`;
+      }
+      
+      // ⑨対戦表
+      if (taisen && taisen.trim() !== '') {
+        msg += `#### ⑨各馬が過去に対戦したときの結果です。右端が最新です。\n${taisen}\n\n`;
+      }
+      
+      // ⑩当該成績
+      if (tougai && tougai.trim() !== '') {
+        msg += `#### ⑩該当コースにおける過去の成績です。重要な情報が隠れてるかもしれません。\n${tougai}\n\n`;
+      }
+      
+      // ⑪特記事項
+      if (tokki && tokki.trim() !== '') {
+        msg += `#### ⑪当レースの予想でアントキノ・チキータに注意してもらいたい事です。\n${tokki}\n\n`;
+      }
+      
+      // ⑫他人の意見
+      if (cleanedFree && cleanedFree.trim() !== '') {
+        msg += `#### ⑫他人の意見です。各種掲示板やオプチャから取得しました。参考にして下さい。\n${cleanedFree}\n`;
+      }
+      
+      // 22500文字を超えたら切り捨てる
+      if (msg.length > 22500) {
+        msg = msg.slice(0, 22500);
+      }
+
+      document.getElementById('output').textContent = msg;
+      document.getElementById('charCount').textContent = `文字数：${msg.length}文字`;
+    }
+
+    function copyMessage() {
+      const text = document.getElementById('output').textContent;
+      navigator.clipboard.writeText(text).then(() => alert('コピーしました！'));
+    }
+  </script>
+</body>
+</html>

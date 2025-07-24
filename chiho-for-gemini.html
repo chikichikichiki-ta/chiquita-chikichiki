@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>チキータ専用Gemini質問作成フォーム</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    body {
+      padding: 10px;
+    }
+    .form-section {
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 100%;
+    }
+    h1 {
+      font-size: 18px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    textarea {
+      width: 100%;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    select {
+      font-size: 14px;
+      padding: 4px;
+      width: 100%;
+    }
+    .generate-button {
+      background-color: lightgreen;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 10px;
+      display: inline-block;
+      width: 100%;
+      font-size: 14px;
+    }
+    .char-count {
+      color: red;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .copy-button {
+      background-color: pink;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: inline-block;
+      margin-top: 0;
+      width: 100%;
+      font-size: 14px;
+    }
+    .output {
+      white-space: pre-line;
+      background: #f4f4f4;
+      padding: 10px;
+      margin-top: 20px;
+      word-break: break-word;
+      font-size: 14px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-section">
+    <label>【会場】</label>
+    <select id="venue">
+      <option value="">選んでください</option>
+      <option>浦和</option>
+      <option>園田</option>
+      <option>名古屋</option>
+      <option>-------------</option>
+      <option>札幌</option>
+      <option>函館</option>
+      <option>福島</option>
+      <option>新潟</option>
+      <option>中山</option>
+      <option>東京</option>
+      <option>中京</option>
+      <option>京都</option>
+      <option>阪神</option>
+      <option>小倉</option>
+      <option>大井</option>
+      <option>水沢</option>
+      <option>船橋</option>
+      <option>川崎</option>
+      <option>佐賀</option>
+      <option>盛岡</option>
+      <option>門別</option>
+      <option>金沢</option>
+      <option>笠松</option>
+      <option>姫路</option>
+      <option>帯広</option>
+      <option>高知</option>
+
+    </select>
+  </div>
+
+  <div class="form-section">
+    <label>【レース番号】</label>
+    <select id="raceNumber">
+      <option value="">選んでください</option>
+      <option>1R</option>
+      <option>2R</option>
+      <option>3R</option>
+      <option>4R</option>
+      <option>5R</option>
+      <option>6R</option>
+      <option>7R</option>
+      <option>8R</option>
+      <option>9R</option>
+      <option>10R</option>
+      <option>11R</option>
+      <option>12R</option>
+    </select>
+  </div>
+
+  <div class="form-section">
+    <label>【断層オッズ解析】</label>
+    <textarea id="dansoText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【楽天騎手分析】</label>
+    <textarea id="kishuText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【楽天予想まとめ】</label>
+    <textarea id="ninkiText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【スピード指数】</label>
+    <textarea id="bomText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【出馬表】</label>
+    <textarea id="shutubaText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【能力表】</label>
+    <textarea id="nouryokuText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【対戦成績】</label>
+    <textarea id="taisenText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【調教】</label>
+    <textarea id="chokyoText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【厩舎の話】</label>
+    <textarea id="kyushaText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【ポイント】</label>
+    <textarea id="pointText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【パドックで良く見えた馬】</label>
+    <textarea id="goodPadockText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【パドックで割引が必要な馬】</label>
+    <textarea id="badPadockText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【予想する上での特記事項】</label>
+    <textarea id="tokkiText" rows="5"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label>【他人の意見】</label>
+    <textarea id="freeText" rows="5"></textarea>
+  </div>
+
+  <button class="generate-button" onclick="generateMessage()">文章を生成</button>
+  <div id="charCount" class="char-count"></div>
+  <button class="copy-button" onclick="copyMessage()">コピー</button>
+  <div class="output" id="output"></div>
+
+  <script>
+    function getSelectValue(id) {
+      const el = document.getElementById(id);
+      return el ? el.value : '';
+    }
+
+    function sanitizeInput(text) {
+      // 不要な行の削除
+      let cleaned = text
+        .split('\n')
+        .filter(line => !line.includes('メニューを開く'))
+        .filter(line => !/^@\S+.*$/.test(line))
+        .map(line => line.replace(/pic\.x\.com\/\w+$/g, ''))
+        .join('\n')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+      // ステップ2: 「人名 + 空行 + 投稿日時」の3行を1行に変換
+      cleaned = cleaned.replace(
+        /([^\n]+)\n\n((?:\d+分前)|(?:昨日 \d{1,2}:\d{2})|(?:\d{1,2}:\d{2})|(?:\d{1,2}月\d{1,2}日\(.\) \d{1,2}:\d{2}))/g,
+        (_, name, date) => {
+          return `◆Xの投稿抜粋◆`;
+        }
+      );
+      // ステップ3: 柔軟なパターン削除 (1〜3行の数字 + 日付)
+      let lines = cleaned.split('\n');
+      let resultLines = [];
+      let i = 0;
+      while (i < lines.length) {
+        let start = i;
+        let countDigits = 0;
+        while (start < lines.length && countDigits < 3 && /^\d+$/.test(lines[start])) {
+          countDigits++;
+          start++;
+        }
+        if (
+          start < lines.length &&
+          (/^\d+分前$/.test(lines[start]) ||
+           /^昨日 \d{1,2}:\d{2}$/.test(lines[start]) ||
+           /^\d{1,2}:\d{2}$/.test(lines[start]))
+        ) {
+          i = start + 1;
+          continue;
+        }
+        resultLines.push(lines[i]);
+        i++;
+      }
+      cleaned = resultLines.join('\n');
+      return cleaned;
+    }
+
+    function generateMessage() {
+      const venue = getSelectValue('venue');
+      const raceNumber = getSelectValue('raceNumber');
+      const goodPadock = document.getElementById('goodPadockText').value;
+      const badPadock = document.getElementById('badPadockText').value;
+      const point = document.getElementById('pointText').value;
+      const kyusha = document.getElementById('kyushaText').value;
+      const chokyo = document.getElementById('chokyoText').value;
+      const ninki = document.getElementById('ninkiText').value;
+      const kishu = document.getElementById('kishuText').value;
+      const nouryoku = document.getElementById('nouryokuText').value;
+      const shutuba = document.getElementById('shutubaText').value;
+      const taisen = document.getElementById('taisenText').value;
+      const bom = document.getElementById('bomText').value;
+      const tokki = document.getElementById('tokkiText').value;
+      const free = document.getElementById('freeText').value;
+      const danso = document.getElementById('dansoText').value;
+      const cleanedFree = sanitizeInput(free);
+
+      let msg = `君はアントキノ・チキータ。競馬予想家だ。\n\n` +
+        `これから${venue}${raceNumber}に関する様々な情報を提示するので、予想をお願いしたい。\n\n` +
+
+      `#### アントキノ・チキータへのベース指示①\n` +
+        `　まずは本文の最後に【各種情報と指示】があるのでよく読み込んで、指示に従って頂きたい。\n\n` +
+
+      `#### アントキノ・チキータへのベース指示②\n` +
+        `　すべての分析を終えた上で「全頭の短評を3～6行程度で書き出して」欲しい。総合評価は貴方の観点で100点満点で付けて欲しい。短評は厩舎の話や時計、過去の戦績、パドック情報、断層オッズあとはXポストなども参考に書いて下さい。\n\n` +
+        `#### 記載サンプル\n` +
+        `【${venue}${raceNumber}】\n\n` +
+        `▼▼全頭評価（短評）▼▼\n` +
+        `①ホースネームイチ：\n【総合評価点：XX点】\n～～(3行～6行の短評)～～\n\n` +
+        `②ホースネームニイ：\n【総合評価点：XX点】\n～～(3行～6行の短評)～～\n\n` +
+        `③ホースネームサン：\n【総合評価点：XX点】\n～～(3行～6行の短評)～～\n\n` +
+        `④ホースネームヨン：\n【総合評価点：XX点】\n～～(3行～6行の短評)～～\n\n\n` +
+
+      `#### アントキノ・チキータへのベース指示③\n` +
+        `　最後に予想印と総合評価点を記載と展開予想を書き出して終わりします。記載サンプルを参考に書いてください。\n` +
+        `#### 記載サンプル\n` +
+        `【${venue}${raceNumber}】\n\n` +
+        
+        `▼▼予想印▼▼\n` +
+        `◎：①ホースネームイチ\n　　総合評価点：XX点\n` +
+        `〇：⑦ホースネームナナ\n　　総合評価点：XX点\n` +
+        `▲：④ホースネームヨン\n　　総合評価点：XX点\n` +
+        `△：⑥ホースネームロク\n　　総合評価点：XX点\n` +
+        `★：③ホースネームサン\n　　総合評価点：XX点\n` +
+        `～ピックアップ特選穴馬2頭～\n` +
+        `◆：⑧ホースネームハチ\n　　総合評価点：XX点\n` +
+        `◇：②ホースネームニイ\n　　総合評価点：XX点\n\n` +
+        
+        `▼▼展開予想▼▼\n` +
+        `　▼スタート直後の隊列\n` +
+        `　　先頭：①④⑦\n` +
+        `　　中団：③⑥⑧⑫\n` +
+        `　　後方：②⑤⑨⑩⑪\n\n` +
+        `　▼第3コーナーの隊列\n` +
+        `　　先頭：①④⑥⑦\n` +
+        `　　中団：③⑧⑫\n` +
+        `　　後方：②⑤⑨⑩⑪\n\n` +
+        `　▼第4コーナーの隊列\n` +
+        `　　先頭：①⑥⑦\n` +
+        `　　中団：③④⑥⑧⑫\n` +
+        `　　後方：②⑤⑨⑩⑪\n\n` +
+        `　▼残り200ｍ地点の隊列\n` +
+        `　　先頭：⑥①⑦\n` +
+        `　　中団：③④⑥⑧⑫\n` +
+        `　　後方：②⑤⑨⑩⑪\n\n` +
+        `　▼残り0ｍの隊列(ゴール順）\n` +
+        `　　1～3着：⑦①⑥\n` +
+        `　　4～5着：②⑫\n` +
+        `　　おしい：⑤⑨\n` +
+        `　　検討の余地無し：⑩⑪\n\n\n` +
+
+        `#### ではここから【各種情報と指示】を提示します。\n\n\n`;
+
+      // 特記事項
+      if (tokki && tokki.trim() !== '') {
+        msg += `#### 当レースの予想でアントキノ・チキータに伝えたい事を忘れてた！次の事を意識して！\n${tokki}\n\n`;
+      }
+
+      // 出馬表
+      if (shutuba && shutuba.trim() !== '') {
+        msg += `#### 指示優先度①：次の出馬表をまずは記憶してください。「トラックマンの印」と「見解」は参考程度に記憶して。「展開」は重要なのでよく覚える事！：\n${shutuba}\n\n`;
+      }
+      
+      // 騎手成績
+      if (kishu && kishu.trim() !== '') {
+        msg += `#### 指示優先度②：騎手別成績です。しっかり読み込んで分析してください。：\n${kishu}\n\n`;
+      }
+
+      // 能力表
+      if (nouryoku && nouryoku.trim() !== '') {
+        msg += `#### 指示優先度③：馬柱です。通過順位と上がり3Fとタイムが重要です。しっかり読み込んで分析してください。：\n${nouryoku}\n\n`;
+      }
+
+      // 対戦表
+      if (taisen && taisen.trim() !== '') {
+        msg += `#### 指示優先度④：対戦成績です。過去の戦績は意外と重要なので分析してください。：\n${taisen}\n\n`;
+      }
+      // 調教
+      if (chokyo && chokyo.trim() !== '') {
+        msg += `#### 指示優先度⑤：調教情報です。下の方ほど直近の追い切りとなります。しっかり読み込んで分析してください。：\n${chokyo}\n\n`;
+      }
+      
+      // 厩舎の話
+      if (kyusha && kyusha.trim() !== '') {
+        msg += `#### 指示優先度⑥：厩舎の話です。弱気・強気と、意外と重要なコメントがあるのでしっかり読み込んで分析してください。：\n${kyusha}\n\n`;
+      }
+      
+      // ポイントの話
+      if (point && point.trim() !== '') {
+        msg += `#### 指示優先度⑦：トラックマンによるポイントです。意外と重要なコメントがあるのでしっかり読み込んで分析してください。：\n${point}\n\n`;
+      }
+      
+      // スピード指数
+      if (bom && bom.trim() !== '') {
+        msg += `#### 指示優先度⑧：スピード指数です。平均指数だけ意識して分析してください。指数がない馬は「全馬の平均指数の平均」と考えて下さい。：\n${bom}\n\n`;
+      }
+
+      // パドックで良く見えた馬
+      if (goodPadock && goodPadock.trim() !== '') {
+        msg += `#### 指示優先度⑨：アントキノ・チキータ視点でパドックが良く見えた馬です。予想するうえで考慮に入れてください。：\n${goodPadock}\n\n`;
+      }
+
+      // パドックで悪く見えた馬
+      if (badPadock && badPadock.trim() !== '') {
+        msg += `#### 指示優先度⑩：アントキノ・チキータ視点でパドックが悪く見えた馬です。予想するうえで割引く事を考慮に入れてください。：\n${badPadock}\n\n`;
+      }
+
+      // 予想まとめ
+      if (ninki && ninki.trim() !== '') {
+        msg += `#### 指示優先度⑪：競馬のプロ達の予想です。オッズは気にせず、◎〇▲△の比率から傾向を分析してください。：\n${ninki}\n\n`;
+      }
+
+      
+      // 断層オッズ解析
+      if (danso && danso.trim() !== '') {
+        msg += `#### 指示優先度⑫：単勝と複勝のオッズ表です。断層オッズ理論は分かりますか？しっかり読み込んで、断層になっている箇所は特に怪しいのでよく分析し、考慮に入れてください。：\n${danso}\n\n`;
+      }
+
+      // 他人の意見
+      if (cleanedFree && cleanedFree.trim() !== '') {
+        msg += `#### 指示優先度⑬：他人の意見です。各種掲示板やオプチャから取得しました。一応分析して、考慮に入れてください。：\n${cleanedFree}\n`;
+      }
+      
+      // 22500文字を超えたら切り捨てる
+      if (msg.length > 22500) {
+        msg = msg.slice(0, 22500);
+      }
+ 
+      document.getElementById('output').textContent = msg;
+      document.getElementById('charCount').textContent = `文字数：${msg.length}文字`;
+    }
+
+    function copyMessage() {
+      const text = document.getElementById('output').textContent;
+      navigator.clipboard.writeText(text).then(() => alert('コピーしました！'));
+    }
+  </script>
+</body>
+</html>

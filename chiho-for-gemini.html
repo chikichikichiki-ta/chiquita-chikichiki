@@ -137,8 +137,13 @@
   </div>
 
   <div class="form-section">
-    <label>【断層オッズ解析】</label>
-    <textarea id="dansoText" rows="5"></textarea>
+    <label>【最終オッズ】※オッズ解析したいなら入力必須</label>
+    <textarea id="finalOddsText" rows="5"></textarea>
+  </div>
+  
+  <div class="form-section">
+    <label>【10分前オッズ】※オッズ解析したいなら最終オッズも入力必須</label>
+    <textarea id="before10minOddsText" rows="5"></textarea>
   </div>
 
   <div class="form-section">
@@ -277,7 +282,8 @@
       const bom = document.getElementById('bomText').value;
       const tokki = document.getElementById('tokkiText').value;
       const free = document.getElementById('freeText').value;
-      const danso = document.getElementById('dansoText').value;
+      const finalOdds = document.getElementById('finalOddsText').value;
+      const before10minOdds = document.getElementById('before10minOddsText').value;
       const cleanedFree = sanitizeInput(free);
 
       let msg = `君はアントキノ・チキータ。競馬予想家だ。\n\n` +
@@ -396,14 +402,19 @@
       }
 
       
-      // 断層オッズ解析
-      if (danso && danso.trim() !== '') {
-        msg += `#### 指示優先度⑫：単勝と複勝のオッズ表です。断層オッズ理論は分かりますか？しっかり読み込んで、断層になっている箇所は特に怪しいのでよく分析し、考慮に入れてください。：\n${danso}\n\n`;
+      // オッズ解析①（最終オッズから断層オッズをみる）
+      if (finalOdds && finalOdds.trim() !== '') {
+        msg += `#### 指示優先度⑫：単勝と複勝の最終オッズ表です。断層オッズ理論は分かりますか？しっかり読み込んで、断層になっている箇所は特に怪しいのでよく分析し、考慮に入れてください。：\n${finalOdds}\n\n`;
+      }
+
+      // オッズ解析②（最終オッズと10分前オッズの差分から変化を分析する）
+      if (before10minOdds && before10minOdds.trim() !== '') {
+        msg += `#### 指示優先度⑬：単勝と複勝の10分前のオッズ表です。「指示優先度⑫：単勝と複勝の最終オッズ表」との差分を分析し、考慮に入れてください。オッズの変化は恐らくパドック評価の良し悪しで変化していると思われます。：\n${before10minOdds}\n\n`;
       }
 
       // 他人の意見
       if (cleanedFree && cleanedFree.trim() !== '') {
-        msg += `#### 指示優先度⑬：他人の意見です。各種掲示板やオプチャから取得しました。一応分析して、考慮に入れてください。：\n${cleanedFree}\n`;
+        msg += `#### 指示優先度⑭：他人の意見です。各種掲示板やオプチャから取得しました。一応分析して、考慮に入れてください。：\n${cleanedFree}\n`;
       }
       
       // 22500文字を超えたら切り捨てる

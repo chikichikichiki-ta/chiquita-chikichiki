@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>中央版ジェミータ</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    body {
+      padding: 10px;
+    }
+    .form-section {
+      margin-bottom: 20px;
+      width: 95%;
+      max-width: 95%;
+    }
+    h1 {
+      font-size: 18px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    textarea {
+      width: 98%;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    select {
+      font-size: 14px;
+      padding: 4px;
+      width: 98%;
+    }
+    .generate-button {
+      background-color: lightgreen;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 10px;
+      display: inline-block;
+      width: 98%;
+      font-size: 14px;
+    }
+    .char-count {
+      color: red;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .copy-button {
+      background-color: pink;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: inline-block;
+      margin-top: 0;
+      width: 98%;
+      font-size: 14px;
+    }
+    .output {
+      white-space: pre-line;
+      background: #f4f4f4;
+      padding: 10px;
+      margin-top: 20px;
+      word-break: break-word;
+      font-size: 14px;
+      width: 98%;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-section">
+    <label>【会場】</label>
+    <select id="venue">
+      <option value="">選んでください</option>
+      <option>札幌</option>
+      <option>函館</option>
+      <option>福島</option>
+      <option>新潟</option>
+      <option>中山</option>
+      <option>東京</option>
+      <option>中京</option>
+      <option>京都</option>
+      <option>阪神</option>
+      <option>小倉</option>
+    </select>
+  </div>
+
+  <div class="form-section">
+    <label>【レース番号】</label>
+    <select id="raceNumber">
+      <option value="">選んでください</option>
+      <option>1R</option>
+      <option>2R</option>
+      <option>3R</option>
+      <option>4R</option>
+      <option>5R</option>
+      <option>6R</option>
+      <option>7R</option>
+      <option>8R</option>
+      <option>9R</option>
+      <option>10R</option>
+      <option>11R</option>
+      <option>12R</option>
+    </select>
+  </div>
+
+  <div class="form-section">
+    <label>【コース情報】</label>
+    <textarea id="kousuText" rows="8"></textarea>
+  </div>
+  <div class="form-section">
+    <label>【出馬表】</label>
+    <textarea id="shutubaText" rows="14" style="background-color: #f0f8ff; font-size: 8px;"></textarea>
+  </div>
+  <div class="form-section">
+    <label>【CPU予想（スピード指数とファクター）】</label>
+    <textarea id="bomText" rows="14" style="background-color: #f0f8ff; font-size: 8px;"></textarea>
+  </div>
+  <div class="form-section">
+    <label>【調教】</label>
+    <textarea id="chokyoText" rows="14" style="background-color: #f0f8ff; font-size: 8px;"></textarea>
+  </div>
+  <div class="form-section">
+    <label>【能力表】</label>
+    <textarea id="nouryokuText" rows="14" style="background-color: #f0f8ff; font-size: 8px;"></textarea>
+  </div>
+  <div class="form-section">
+    <label>【厩舎の話】</label>
+    <textarea id="kyushaText" rows="14" style="background-color: #f0f8ff; font-size: 8px;"></textarea>
+  </div>
+  <div class="form-section">
+    <label>【本日の傾向（AI競馬）】</label>
+    <textarea id="pointText" rows="14" style="background-color: #f0f0f0; font-size: 8px;"></textarea>
+  </div>
+  <div class="form-section">
+    <label>【騎手分析の直近6カ月の成績（AI競馬）】</label>
+    <textarea id="kishuText" rows="14" style="background-color: #f0f8ff; font-size: 8px;"></textarea>
+  </div>
+  <div class="form-section">
+    <label>【父、母の父の直近6カ月の成績（AI競馬）】</label>
+    <textarea id="kettouText" rows="14" style="background-color: #f0f8ff; font-size: 8px;"></textarea>
+  </div>
+  <div class="form-section">
+    <label>【オッズ理論（水分ボンバー姉妹サイト）】</label>
+    <textarea id="cpuText" rows="14" style="background-color: #f0f8ff; font-size: 8px;"></textarea>
+  </div>
+  <div class="form-section">
+    <label>【X民によるパドック速報】</label>
+    <textarea id="freeText" rows="14" style="background-color: #e6ffe6; font-size: 8px;"></textarea>
+  </div>
+<br>
+＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊
+  <div class="form-section">
+    <label>【予想する上での特記事項】</label>
+    <textarea id="tokkiText" rows="14" style="background-color: #f0f0f0; font-size: 8px;"></textarea>
+  </div>
+＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊
+<br>
+  <button class="generate-button" onclick="generateMessage()">文章を生成</button>
+  <div id="charCount" class="char-count"></div>
+  <button class="copy-button" onclick="copyMessage()">コピー</button>
+
+<br>
+
+
+  <div class="output" id="output"></div>
+
+  <script>
+    function getSelectValue(id) {
+      const el = document.getElementById(id);
+      return el ? el.value : '';
+    }
+
+    function sanitizeInput(text) {
+      // 不要な行の削除
+      let cleaned = text
+        .split('\n')
+        .filter(line => !line.includes('メニューを開く'))
+        .filter(line => !/^@\S+.*$/.test(line))
+        .map(line => line.replace(/pic\.x\.com\/\w+$/g, ''))
+        .join('\n')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+      // ステップ2: 「人名 + 空行 + 投稿日時」の3行を1行に変換
+      cleaned = cleaned.replace(
+        /([^\n]+)\n\n((?:\d+分前)|(?:昨日 \d{1,2}:\d{2})|(?:\d{1,2}:\d{2})|(?:\d{1,2}月\d{1,2}日\(.\) \d{1,2}:\d{2}))/g,
+        (_, name, date) => {
+          return `◆Xの投稿抜粋◆`;
+        }
+      );
+      // ステップ3: 柔軟なパターン削除 (1〜3行の数字 + 日付)
+      let lines = cleaned.split('\n');
+      let resultLines = [];
+      let i = 0;
+      while (i < lines.length) {
+        let start = i;
+        let countDigits = 0;
+        while (start < lines.length && countDigits < 3 && /^\d+$/.test(lines[start])) {
+          countDigits++;
+          start++;
+        }
+        if (
+          start < lines.length &&
+          (/^\d+分前$/.test(lines[start]) ||
+           /^昨日 \d{1,2}:\d{2}$/.test(lines[start]) ||
+           /^\d{1,2}:\d{2}$/.test(lines[start]))
+        ) {
+          i = start + 1;
+          continue;
+        }
+        resultLines.push(lines[i]);
+        i++;
+      }
+      cleaned = resultLines.join('\n');
+      return cleaned;
+    }
+
+    function generateMessage() {
+      const venue = getSelectValue('venue');
+      const raceNumber = getSelectValue('raceNumber');
+      const point = document.getElementById('pointText').value;
+      const kyusha = document.getElementById('kyushaText').value;
+      const chokyo = document.getElementById('chokyoText').value;
+      const kishu = document.getElementById('kishuText').value;
+      const nouryoku = document.getElementById('nouryokuText').value;
+      const shutuba = document.getElementById('shutubaText').value;
+      const bom = document.getElementById('bomText').value;
+      const tokki = document.getElementById('tokkiText').value;
+      const cpu = document.getElementById('cpuText').value;
+      const kettou = document.getElementById('kettouText').value;
+      const kousu = document.getElementById('kousuText').value;
+      const free = document.getElementById('freeText').value;
+      const cleanedFree = sanitizeInput(free);
+
+
+      let msg = `君はジェミータ。競馬予想家だ。\n\n` +
+        `これから${venue}${raceNumber}に関する様々な情報を提示するので、予想をお願いしたい。冒頭で「俺はジェミータ」とか自己紹介は全くいらんから、予想から開始してくれ\n\n` +
+
+      `#### ジェミータへのベース指示①\n` +
+        `まずは本文の最後に【各種情報と指示】があるのでよく読み込んで、指示に従って頂きたい。\n\n` +        
+        
+      `#### ジェミータへのベース指示②\n` +
+        `次に各馬に総合評価点を考えてみてほしい。考えた結果は貴方の頭の中で保持しろ。決して書き出すな。この得点は「ジェミータへのベース指示③」や「ジェミータへのベース指示⑤」で使用する点数となる。この「ジェミータへのベース指示②」の時点では結果の表とか、一覧で書き出さないでくれ。出力結果として邪魔になってしまうから。\n` +
+        `総合評価点は100点満点ではなく、100点を超える事もあれば、全体的に50点未満で終わる事もある。総合評価点をつける時のポイントは以下の通り：\n` +
+        `ポイント①馬場に対する評価：良/稍重/重/不良でその日のコンディションがベストなら30点、普通なら10点、不明なら0点、苦手なら-20点\n` +
+        `ポイント②脚質に対する評価：該当コースの傾向でその脚質がベストなら20点、まぁ有利なら15点、普通なら10点、厳しめなら5点\n` +
+        `ポイント③調教に対する評価：調子が上がり目なら20点、現状維持なら10点、不明なら0点、下降気味なら-10点\n` +
+        `ポイント④騎手に対する評価：最新リーディングや、該当コースにおける成績をみて10点～180点の相対評価で付けてみて。\n` +
+        `ポイント⑤スピードに対する評価：スピード指数をそのまま点数にしてつけてくれてOK。\n` +
+        `ポイント⑥血統に対する評価：父×母父で貴方が思う得点を自由につけてみて。-10点～20点の範囲で。\n` +
+        `ポイント⑦過去成績に対する評価：貴方が思う得点を自由につけてみて。-10点～20点の範囲で。\n` +
+        `ポイント⑧厩舎の話に対する評価：貴方が思う得点を自由につけてみて。-10点～20点の範囲で。\n` +
+        `ポイント⑨斤量に対する評価：貴方が思う得点を自由につけてみて。-10点～20点の範囲で。\n` +
+        `ポイント⑩その他加点(貴方が思う任意の要素)：貴方が思う得点を自由につけてみて。-30点～180点の範囲で。\n` +
+        `補足1：評価できないファクターは0点とする事。人気やオッズは無視する事。\n` +
+        `補足2：貴方が馬鹿すぎて理解できてなさそうなのでもう１度いいます。総合評価点に関する表は結果に出力しないで。算出した値を「ジェミータへのベース指示③」や「ジェミータへのベース指示⑤」で使用してくれればいいだけだから！。\n` +
+        `ボーナスポイント：上位人気馬が全て先行脚質で固まった場合、中位～後方脚質の馬の穴馬評価（◆）のボーナス点を加える。またレースの確度は下げた方が良いだろう。\n\n` +
+        `ボーナスポイント：他馬と比べて明らかに軽量ハンデがある場合はボーナス点を加える。\n\n` +
+
+      `#### ジェミータへのベース指示③\n` +
+        `次に各馬に予想印をつけてみよう。◎（本命）〇（対抗）▲（単穴）△（連下）★（注目）までは総合評価点順でいいだろう。\n` +
+        `◆（穴）は一発穴を開ける可能性を秘めている馬をピックアップしてくれ。総合評価点の順で選ぶ必要はないぞ。\n` +
+        `あと、オッズ理論でオッズの変化から見逃せない馬をピックアップしてほしい。それは既に印をつけて挙げている馬と重複しても構わない。\n\n` +
+//        `あと、Xポストの情報を拾ってきてると思うが、Ｘポストからパドックランキング（言及数や内容から貴方が考えた順で良い）を書いてほしい。言及があった馬は全頭分書き出す事！なお、Xのポストを僕が拾ってきてない場合もあるので、その場合は何も書かなくてよいです。\n\n` +
+
+        `#### 記載サンプル　★★★★★★とにかく箇条書きとなるように書いてください。\n\n` +
+        `▼▼${venue}${raceNumber}予想印▼▼\n\n\n` +
+        `◎：①ホースネームイチ(逃げ)\n\n\n　　評価の決め手：✕✕✕\n\n` +
+        `〇：⑦ホースネームナナ(先行)\n\n\n　　評価の決め手：✕✕✕\n\n` +
+        `▲：④ホースネームヨン(追い込み)\n\n\n　　評価の決め手：✕✕✕\n\n` +
+        `△：⑥ホースネームロク(逃げ)\n\n\n　　評価の決め手：✕✕✕\n\n` +
+        `★：③ホースネームサン(差し)\n\n\n　　評価の決め手：✕✕✕\n\n\n` +
+        `※今回、上位5頭の全体的なピックアップ基準は～～～～～～で選びました。\n\n\n` +
+
+        `～ピックアップ特選穴馬～\n` +
+        `◆：⑧ホースネームハチ(追い込み)\n\n` +
+        `※今回、穴馬のピックアップ基準（評価の決め手）は✕✕✕であり、可能性を感じたのでこの馬を選びました。\n\n\n` +
+
+        `～オッズ理論とXポストのパドック言及率より抑えたい馬達～\n\n` +
+        `α：⑨ホースネームキュ：単勝オッズへの得票率が非常に高い。想定値との比較でみると若干下がっているが、主軸としては申し分なし。またXのポストによるとパドックで高評価\n\n\n` +
+        `β：⑧ホースネームハチ：単勝オッズへの得票率は3～5番手だが、想定値よりかなり高くなっている。Xポストをみていても、言及数が多く、パドックなどの結果から急激に売れた事を示しており、期待値がある\n\n\n` +
+        `γ：⑩ホースネームテン：単勝と複勝の間に段差があり、期待値がある\n\n\n` +
+        `δ：⑪ホースネームデルタ：複勝が想定よりも一番変化があった（得票率アップ）。これはパドックなどの結果から急激に売れた事を示しており、期待値がある\n\n\n` +
+        `ε：⑪ホースネームイプ：～～～～～～という理由により、大穴として狙ってみたい\n\n\n` +
+        `\n\n\n` +
+
+//        `～Ｘポストからパドック言及ランキング～\n\n\n` +
+//        `Ｘ１位：③ホースネームサン(差し)\n\n` +
+//        `Ｘ２位：⑥ホースネームロク(逃げ)\n\n` +
+//        `Ｘ３位：⑦ホースネームナナ(先行)\n\n` +
+//        `Ｘ４位：①ホースネームイチ(逃げ)\n\n` +
+//        `Ｘ５位：⑧ホースネームハチ(追い込み)\n\n` +
+//        `Ｘ６位：～～～～～\n\n` +
+//        `Ｘ７位：～～～～～\n\n` +
+//        `Ｘ８位：～～～～～\n\n` +
+//        `※Ｘポストでパドックに関する言及があった馬全頭分、僕の判断でランキング化しました。\n\n` +
+
+      `#### ジェミータへのベース指示④\n` +
+//        `次にレースの確度と、確度に従った買い目(3連複フォーメーションか馬連ワイドフォーメーションか単複)と、コースの概要と、レース展開の総合解説を書き出して下さい。なお、記載サンプルを参考に書いてほしいが、必ずしも従う必要はない。思った通りに書いてくれ。\n\n` +
+        `次にコースの概要と、レース展開の総合解説を書き出して下さい。なお、記載サンプルを参考に書いてほしいが、必ずしも従う必要はない。思った通りに書いてくれ。\n\n` +
+
+        `#### 記載サンプル\n\n` +
+
+//        `▼▼${venue}${raceNumber}確度▼▼\n` +
+//        `【85%】：三つ巴。上位3頭の力差が歴然。本命(①ホースネームイチ)＋対抗(②ホースネームニ)＋単穴(③ホースネームサン)決着が濃厚。波乱の要素はゼロだ。点数を激絞りしたうえで厚張り馬券を買うしかない。\n` +
+//        `【75%】：上位拮抗。本命＋対抗＋上位人気馬で決まるだろう。穴馬が入る枠は無さそうです。特に上位2頭の実力が抜きん出ており、2頭軸マルチで大丈夫だ。つまり本命(①ホースネームイチ)＋対抗(②ホースネームニ)と紐は3頭(～～～～～～～)だ。\n` +
+//        `【65%】：伏兵注意。本命＋（対抗or単穴）＋紐荒れで決まるだろう。広めにフォーメーションを組むのが無難だろう。つまり本命(①ホースネームイチ)＋｛対抗(②ホースネームニ)又は単穴(③ホースネームサン)｝と紐は5頭（～～～～～～～）だ。\n` +
+//        `【50%】：力の差が明らかでな堅実な軸馬が1頭見えているのみ。本命は馬券に絡むだろう。ただし2頭目、3頭目は紐荒れする可能性がある。馬連流しやワイド流しが良いだろう。つまり本命(①ホースネームイチ)と相手5頭（～～～～～～～）だ。\n` +
+//        `【35%】：大混戦。力の差がなく、何が来てもおかしくない。見（ケン）するのも勇気だ。単勝もお勧めかもしれない。買い目の推奨はやめておこう。\n\n` +
+
+        `▼▼コース概要▼▼\n` +
+        `${venue}${raceNumber}は距離｛〇〇〇〇｝ｍだ。今日は｛良/やや重/重/不良｝馬場だ。コースの特徴は～～～～～だ。（｛高低差情報｝や、{砂圧情報}や｛カーブ情報（器用さが求められるとか、スパイラルカーブの存在有無とか、勢いに乗れるとか）｝のような特徴がある。スタートからの最初に曲がるカーブまでの距離は〇〇ｍで、最後の直線は〇〇ｍだ。脚質的には〇〇が一般的なねらい目だ)等\n\n` +
+
+        `▼▼${venue}${raceNumber}レース展開解説▼▼\n` +
+        `スタート後：\n～～(ゲートの話やスタートダッシュの話や出遅れ癖の話やペースの話を盛り込んで。例えば：①ホースネームイチが好スタートから先行する～とか。)～～\n\n\n` +
+        `3/4コーナー：\n～～～～\n\n\n` +
+        `ラスト直線：\n～～～～(★重要ポイントなのでできるかぎり全頭分の状況を具体的に書き出してほしい)\n\n\n` +
+
+
+//      `#### ジェミータへのベース指示⑤\n` +
+//        `すべての分析を終えた上で1頭ずつ"馬番号順"に全馬の「予想順位」と「1着：〇％、2着以上：✕％、3着以上：▲％」と「脚質」と「評価の決め手」と「各馬の特徴(短評)のうち、"結果に左右しそうな特に重要な物"を箇条書きで3個～10個くらい(※プラス要素だけじゃなくマイナス要素も書き出す事）」を記載してください。あ、HTMLのタグとかは使わず、ただの平文テキストで書いてね。なぜならそのままLINEに貼り付けたいから。\n` +
+//        `そうだ。各種「指数系」なんですけど、具体的な数値は出さないでほしい。例えば、スピードにおいて、指数が100を超えてて高そうだったら「スピード速度上位」とかで丸めて伏せて。\n` +
+//        `特に血統背景はしっかり記載してほしい。「父名（〇〇系）、母父名（〇〇系）、〇〇の4×3の配合でダートは得意/不得意、早熟/晩成、短/中/長距離血統であり、お勧めできる。」など\n` +
+//        `あと騎手を「勝率」だけで判断するな！「連対率」や「複勝率」だって重要なんだぞ！あとあと全部ただのテキストで書くんだぞ！箇条書きとかもシンプルに書くんだぞ！マークダウン形式やHTMLになんかするな！\n\n` +
+//        `#### 記載サンプル\n\n` +
+        
+//        `▼▼${venue}${raceNumber}全頭評価▼▼\n` +
+//        `①ホースネームイチ：\n【予想着順：3～6着】\n\（1着：〇％、2着以上：✕％、3着以上：▲％）\n★評価の決め手：≪✕✕✕≫\n\n\n-脚質：出脚は｛速い/普通/遅い｝、今回は｛逃げる/先行する/中位差し/追い込む｝\n-近走：～～～～\n-タイム：～～～～\n-騎手：～～～～\n-調教：～～～～\n-馬体重：～～～～\n-血統：～～～～\n-その他特徴：\n  --～～\n  --～～\n  --～～\n\n` +
+//        `②ホースネームニイ：\n【予想着順：1～3着】\n（1着：〇％、2着以上：✕％、3着以上：▲％）\n★評価の決め手：≪✕✕✕≫\n\n\n-脚質：出脚は｛速い/普通/遅い｝、今回は｛逃げる/先行する/中位差し/追い込む｝\n-近走：～～～～\n-タイム：～～～～\n-騎手：～～～～\n-調教：～～～～\n-馬体重：～～～～\n-血統：～～～～\n-その他特徴：\n  --～～\n  --～～\n  --～～\n\n` +
+//        `③ホースネームサン：\n【予想着順：1～2着】\n（1着：〇％、2着以上：✕％、3着以上：▲％）\n★評価の決め手：≪✕✕✕≫\n\n\n-脚質：出脚は｛速い/普通/遅い｝、今回は｛逃げる/先行する/中位差し/追い込む｝\n-近走：～～～～\n-タイム：～～～～\n-騎手：～～～～\n-調教：～～～～\n-馬体重：～～～～\n-血統：～～～～\n-その他特徴：\n  --～～\n  --～～\n  --～～\n\n` +
+//        `④ホースネームヨン：\n【予想着順：2～4着】\n（1着：〇％、2着以上：✕％、3着以上：▲％）\n★評価の決め手：≪✕✕✕≫\n\n\n-脚質：出脚は｛速い/普通/遅い｝、今回は｛逃げる/先行する/中位差し/追い込む｝\n-近走：～～～～\n-タイム：～～～～\n-騎手：～～～～\n-調教：～～～～\n-馬体重：～～～～\n-血統：～～～～\n-その他特徴：\n  --～～\n  --～～\n  --～～\n\n\n\n` +
+//        `①ホースネームイチ：\n【予想着順：3～6着】\n\n（1着:〇％、2着以上:✕％、3着以上:▲％）\n\n★評価の決め手:✕✕✕\n\n\n【脚質】：出脚は｛速い/普通/遅い｝、今回は｛逃げる/先行する/中位差し/追い込む｝　【近走】～～～～　【タイム】～～～～　【騎手】～～～～　【調教】～～～～　【馬体重】～～～～　【血統】～～～～　【その他特徴】～～～～\n\n` +
+//        `②ホースネームニイ：\n【予想着順：1～3着】\n\n（1着:〇％、2着以上:✕％、3着以上:▲％）\n\n★評価の決め手:✕✕✕\n\n\n【脚質】：出脚は｛速い/普通/遅い｝、今回は｛逃げる/先行する/中位差し/追い込む｝　【近走】～～～～　【タイム】～～～～　【騎手】～～～～　【調教】～～～～　【馬体重】～～～～　【血統】～～～～　【その他特徴】～～～～\n\n` +
+//        `③ホースネームサン：\n【予想着順：1～2着】\n\n（1着:〇％、2着以上:✕％、3着以上:▲％）\n\n★評価の決め手:✕✕✕\n\n\n【脚質】：出脚は｛速い/普通/遅い｝、今回は｛逃げる/先行する/中位差し/追い込む｝　【近走】～～～～　【タイム】～～～～　【騎手】～～～～　【調教】～～～～　【馬体重】～～～～　【血統】～～～～　【その他特徴】～～～～\n\n` +
+//        `④ホースネームヨン：\n【予想着順：2～4着】\n\n（1着:〇％、2着以上:✕％、3着以上:▲％）\n\n★評価の決め手:✕✕✕\n\n\n【脚質】：出脚は｛速い/普通/遅い｝、今回は｛逃げる/先行する/中位差し/追い込む｝　【近走】～～～～　【タイム】～～～～　【騎手】～～～～　【調教】～～～～　【馬体重】～～～～　【血統】～～～～　【その他特徴】～～～～\n\n\n\n` +
+
+
+
+        `#### ではここから【各種情報と指示】を提示します。\n\n\n`;
+
+      // 出馬表
+      if (shutuba && shutuba.trim() !== '') {
+        msg += `#### 指示優先度①：次の出馬表をまずは記憶してください。「印」と「見解」は参考程度で無視してよいです。「展開」は重要なのでよく覚える事！：\n${shutuba}\n\n`;
+      }
+      
+      // 騎手の直近6カ月の成績
+      if (kishu && kishu.trim() !== '') {
+        msg += `#### 指示優先度②：騎手の直近6カ月の成績です。よく分析してください：\n${kishu}\n\n`;
+      }
+
+      // 能力表
+      if (nouryoku && nouryoku.trim() !== '') {
+        msg += `#### 指示優先度③：馬柱です。通過順位と上がり3Fとタイムが重要です。しっかり読み込んで分析してください。：\n${nouryoku}\n\n`;
+      }
+
+      // 調教
+      if (chokyo && chokyo.trim() !== '') {
+        msg += `#### 指示優先度④：調教情報です。下の方ほど直近の追い切りとなります。しっかり読み込んで分析してください。：\n${chokyo}\n\n`;
+      }
+      
+      // 厩舎の話
+      if (kyusha && kyusha.trim() !== '') {
+        msg += `#### 指示優先度⑤：厩舎の話です。弱気・強気と、意外と重要なコメントがあるのでしっかり読み込んで分析してください。：\n${kyusha}\n\n`;
+      }
+      
+      // ポイントの話
+      if (point && point.trim() !== '') {
+        msg += `#### 指示優先度⑥：本日の傾向情報です。分析をお願いします。：\n${point}\n\n`;
+      }
+      
+      // スピード指数とファクター
+      if (bom && bom.trim() !== '') {
+        msg += `#### 指示優先度⑦：スピード指数と各種ファクターです。よく分析してください。：\n${bom}\n\n`;
+      }
+
+      // 父と母の父の直近6カ月における成績
+      if (kettou && kettou.trim() !== '') {
+        msg += `#### 指示優先度⑧：父と母の父の直近6カ月における成績です。しっかり分析をお願いします。\n${kettou}\n\n`;
+      }
+      
+      // コース特徴
+      if (kousu && kousu.trim() !== '') {
+        msg += `#### 指示優先度⑨：コースの情報です。該当コースにおける特徴、脚質の有利不利、内外枠の有利不利、砂圧情報、馬場コンディション(良/やや重/重/不良)における有利不利などリサーチ願います：\n${kousu}\n\n`;
+
+      }
+      
+      // オッズ理論
+      if (cpu && cpu.trim() !== '') {
+        msg += `#### 指示優先度⑩：オッズ（得票率）だ。単勝、複勝、馬連の上段は得票率(%)下段はオッズの時系列分析(想定値との比率)。単勝と複勝における下段の比率が1を大きく超えているものが怪しい：\n${cpu}\n\n`;
+      }
+
+      // 他人の意見
+      if (cleanedFree && cleanedFree.trim() !== '') {
+        msg += `#### 指示優先度⑪：X(旧Twitter)から該当レースのパドックに関するポストを抽出しました。言及数や内容から貴方の判断でランキング化してほしい。：\n${cleanedFree}\n`;
+      }
+
+      // 特記事項
+      if (tokki && tokki.trim() !== '') {
+        msg += `#### 当レースの予想でジェミータに伝えたい事を忘れてた！次の事を意識して！\n${tokki}\n\n`;
+      }
+
+      // 最後にお願いだ
+      msg += `#### 最後にジェミータにお願い\n\nまとめを記載するとき、絶対にただのテキスト（平文）で書きあげてくれ。ボールド表記（太字）とかHTMLのタグや、マークダウン形式などコピーできない特殊な箇条書きなどはやめてくれ。全部「余計なお世話」だ。理想は「そのままコピーしてLINEに貼り付けられる事」だから。コピーできない物が使用されてたらたぶん怒る。`;
+
+      // 30000文字を超えたら切り捨てる
+      if (msg.length > 30000) {
+        msg = msg.slice(0, 30000);
+      }
+ 
+      document.getElementById('output').textContent = msg;
+      document.getElementById('charCount').textContent = `文字数：${msg.length}文字`;
+    }
+
+    function copyMessage() {
+      const text = document.getElementById('output').textContent;
+      //navigator.clipboard.writeText(text).then(() => alert('コピーしました！'));
+      navigator.clipboard.writeText(text);
+    }
+  </script>
+</body>
+</html>
